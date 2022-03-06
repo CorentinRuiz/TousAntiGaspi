@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/mHome"
+        android:icon="@drawable/ic_homeicon"
+        android:iconTint="@color/white"
+        android:title=""/>
+    <item android:id="@+id/mSearch"
+        android:icon="@drawable/ic_listicon"
+        android:iconTint="@color/white"
+        android:title=""/>
+    <item android:id="@+id/mSetting"
+        android:iconTint="@color/white"
+        android:icon="@drawable/ic_icon_feather_settings"
+        android:title=""/>
+</menu>
