@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.ListFragment"
+    android:background="@color/main_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vos produits"
+        android:textColor="@color/main_grey_text_color"
+        android:textSize="30sp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="30dp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/AddProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:backgroundTint="@color/grey_bar_color"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_icon_feather_plus"
+        app:tint="@color/white"
+        android:layout_margin="15dp" />
+
+</FrameLayout>
