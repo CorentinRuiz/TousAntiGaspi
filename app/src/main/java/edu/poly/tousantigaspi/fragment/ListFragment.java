@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +62,11 @@ public class ListFragment extends Fragment {
 
         popupWindow.setAnimationStyle(R.style.popup_window_animation);
         popupWindow.setElevation(20);
-        popupWindow.showAtLocation(view, Gravity.BOTTOM,135,390);
+        popupWindow.showAtLocation(view, Gravity.BOTTOM,130,290);
+
+        viewPopupWindow.findViewById(R.id.AddProductButton).setOnClickListener(click -> System.out.println("TEST"));
+
+        viewPopupWindow.findViewById(R.id.AddProductBarCodeButton).setOnClickListener(click -> System.out.println("TEST"));
 
     }
 

@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         pagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
 
+
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
