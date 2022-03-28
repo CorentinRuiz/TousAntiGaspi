@@ -1,6 +1,7 @@
 package edu.poly.tousantigaspi.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.PopupWindow;
 import java.util.Objects;
 
 import edu.poly.tousantigaspi.R;
+import edu.poly.tousantigaspi.activity.BarCodeScannerActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +30,6 @@ public class ListFragment extends Fragment {
     public ListFragment() {
 
     }
-
 
     public static ListFragment newInstance() {
         ListFragment fragment = new ListFragment();
@@ -62,12 +63,17 @@ public class ListFragment extends Fragment {
 
         popupWindow.setAnimationStyle(R.style.popup_window_animation);
         popupWindow.setElevation(20);
-        popupWindow.showAtLocation(view, Gravity.BOTTOM,130,290);
+        popupWindow.showAtLocation(view, Gravity.BOTTOM,130,400);
 
         viewPopupWindow.findViewById(R.id.AddProductButton).setOnClickListener(click -> System.out.println("TEST"));
 
-        viewPopupWindow.findViewById(R.id.AddProductBarCodeButton).setOnClickListener(click -> System.out.println("TEST"));
+        viewPopupWindow.findViewById(R.id.AddProductBarCodeButton).setOnClickListener(click -> openBarCodeScanner());
 
+    }
+
+    public void openBarCodeScanner(){
+        Intent openBarCodeScannerActivity = new Intent(requireContext(), BarCodeScannerActivity.class);
+        startActivity(openBarCodeScannerActivity);
     }
 
 }
