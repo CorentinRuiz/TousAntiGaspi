@@ -23,7 +23,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
         //TODO Verify connection
         if(pref.getInt("nbAppStart",0) == 0){
-            Intent openLoginActivity = new Intent(this, LoginRegisterActivity.class);
+            Intent openLoginActivity = new Intent(this, LoginActivity.class);
             startActivity(openLoginActivity);
         }else{
             Intent openMainActivity = new Intent(this, MainActivity.class);

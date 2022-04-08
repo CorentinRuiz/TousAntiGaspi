@@ -2,4 +2,6 @@
     <string name="app_name">TousAntiGaspi</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="need_register"><u>Besoin de vous inscrire ?</u></string>
+    <string name="need_login"><u>Déjà un compte ? connectez-vous !</u></string>
 </resources>
