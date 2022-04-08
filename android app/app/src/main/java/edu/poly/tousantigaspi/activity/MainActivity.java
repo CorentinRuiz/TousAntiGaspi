@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -26,6 +28,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragment  = new MainFragment();
+
+     SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
+     SharedPreferences.Editor editor = pref.edit();
+
+     editor.putInt("nbAppStart",pref.getInt("nbAppStart",0) + 1);
+     editor.apply();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()

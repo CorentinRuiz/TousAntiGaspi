@@ -3,7 +3,7 @@
     package="edu.poly.tousantigaspi">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,16 +13,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TousAntiGaspi">
         <activity
-            android:name=".activity.BarCodeScannerActivity"
-            android:exported="true" />
+            android:name=".activity.FirstConnexionActivity"
+            android:exported="false" />
         <activity
-            android:name=".activity.MainActivity"
-            android:exported="true">
+            android:name=".activity.LoginRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SplashScreenActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.BarCodeScannerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="false">
         </activity>
     </application>
 
