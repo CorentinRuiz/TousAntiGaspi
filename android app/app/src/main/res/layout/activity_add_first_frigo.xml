@@ -7,25 +7,56 @@
     android:background="@drawable/inverse_rounded"
     tools:context=".activity.FirstConnexionActivity">
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="400dp"
         android:background="@drawable/colored_background"
+        app:layout_constraintBottom_toTopOf="@+id/frigoInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
+        android:id="@+id/create_first_frigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginBottom="8dp"
-        android:text="C'est quoi ton petit nom ?"
+        android:layout_marginTop="28dp"
+        android:text="Créons ton premier  frigo"
         android:textColor="@color/main_grey_text_color"
         android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/underline" />
+
+    <TextView
+        android:id="@+id/guide_text_frigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="96dp"
+        android:justificationMode="inter_word"
+        android:text="         Indique le nom \n de ton frigo, et tu pourras \n te lancer dans l'ajout de\n           tes produits !"
+        android:textColor="@color/main_grey_text_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/frigoInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/main_grey_text_color"
+        android:textSize="45sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/nameInput"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/underline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.273"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcome" />
 
     <TextView
         android:id="@+id/emojiView"
@@ -33,7 +64,7 @@
         android:layout_height="wrap_content"
         android:text="👋🏼"
         android:textSize="45sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/welcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,45 +72,43 @@
         app:layout_constraintVertical_bias="0.271" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bienvenue !"
         android:textColor="@color/main_grey_text_color"
         android:textSize="45sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/nameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.335" />
+        app:layout_constraintTop_toBottomOf="@id/emojiView"
+        app:layout_constraintVertical_bias="0.291" />
 
     <EditText
-        android:id="@+id/nameInput"
-        android:maxLength="20"
-        android:textAllCaps="false"
+        android:id="@+id/frigoInput"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/rounded_edit_text"
         android:inputType="text"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:drawableStart="@drawable/ic_kitchen_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.327"
+        app:layout_constraintTop_toBottomOf="@+id/guide_text_frigo"
         app:layout_constraintWidth_percent="0.7" />
 
     <Button
-        android:id="@+id/nextButton"
+        android:id="@+id/lets_go"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:background="@drawable/rounded_button_grey"
         android:backgroundTint="@color/main_grey_text_color"
         android:drawableEnd="@drawable/ic_arrow_right"
-        android:text="Continuer"
+        android:text="C'est parti"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="23sp"
@@ -88,18 +117,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInput"
-        app:layout_constraintVertical_bias="0.375"
+        app:layout_constraintTop_toBottomOf="@+id/frigoInput"
+        app:layout_constraintVertical_bias="0.376"
         app:layout_constraintWidth_percent="0.5" />
 
     <View
+        android:id="@+id/underline"
         android:layout_width="0dp"
         android:layout_height="2dp"
+        android:layout_marginBottom="4dp"
         android:background="@color/main_grey_text_color"
+        app:layout_constraintBottom_toTopOf="@+id/create_first_frigo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.357"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintWidth_percent="0.4" />
 
 
