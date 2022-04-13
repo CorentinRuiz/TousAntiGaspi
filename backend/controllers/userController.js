@@ -5,7 +5,7 @@ exports.register = (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hashedPassword => {
             const user = new User({
-                name: req.body.name,
+                username: req.body.username,
                 email: req.body.email,
                 password: hashedPassword
             });
@@ -17,7 +17,9 @@ exports.register = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    User.findOne({email: req.body.email})
+    console.log("ON ma requeter");
+    console.log(req.body);
+    User.findOne({username: req.body.username})
         .then(user => {
             if(!user) res.status(404).json({error: "User not found"});
 

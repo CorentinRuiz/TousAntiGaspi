@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,13 +15,25 @@ import androidx.core.content.ContextCompat;
 
 import com.budiyev.android.codescanner.AutoFocusMode;
 import com.budiyev.android.codescanner.CodeScanner;
+import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ErrorCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.Result;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.util.ProductRequester;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class BarCodeScannerActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 101;
@@ -37,7 +50,8 @@ public class BarCodeScannerActivity extends AppCompatActivity {
     }
 
     private void codeScanner(){
-        codeScanner = new CodeScanner(this,findViewById(R.id.scanner));
+        CodeScannerView scannerView = findViewById(R.id.scanner_view);
+        codeScanner = new CodeScanner(this,scannerView);
 
         codeScanner.setCamera(CodeScanner.CAMERA_BACK);
         codeScanner.setFormats(CodeScanner.ALL_FORMATS);
@@ -54,24 +68,30 @@ public class BarCodeScannerActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ProductRequester requester = new ProductRequester(result.getText(),getBaseContext());
-                        TextView text = (TextView) findViewById(R.id.productName);
-                        text.setText(requester.getProductName());
+                        setProductName(result.getText().toString());
                     }
                 });
             }
         });
 
+        scannerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                codeScanner.startPreview();
+            }
+        });
+
         codeScanner.setErrorCallback(new ErrorCallback() {
             @Override
-            public void onError(@NonNull Exception error) {
+            public void onError(@NonNull Throwable thrown) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("Main","Camera error :" + error.getMessage());
+                        Log.e("Main","Camera error :" + thrown.getMessage());
                     }
                 });
             }
+
         });
 
     }
@@ -96,5 +116,40 @@ public class BarCodeScannerActivity extends AppCompatActivity {
                 Toast.makeText(this, "You need the camera permission to use this feature !", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void setProductName(String barcode){
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("https://world.openfoodfacts.org/api/v0/product/" + barcode +".json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    assert responseBody != null;
+                    JSONObject res = new JSONObject(responseBody.string());
+                    final String name = res.getJSONObject("product").getString("product_name");
+
+                    BarCodeScannerActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView text = (TextView) findViewById(R.id.productName);
+                            text.setText(name);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

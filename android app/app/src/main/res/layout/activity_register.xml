@@ -30,12 +30,12 @@
             android:textColor="@color/main_grey_text_color"
             android:textSize="23sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/username"
+            app:layout_constraintBottom_toTopOf="@+id/usernameRegister"
             app:layout_constraintStart_toStartOf="parent" />
 
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/usernameRegister"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
@@ -76,7 +76,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/username"
+            app:layout_constraintTop_toBottomOf="@id/usernameRegister"
             app:layout_constraintVertical_bias="0.108"
             app:layout_constraintWidth_percent="0.70" />
 
@@ -89,12 +89,12 @@
             android:textColor="@color/main_grey_text_color"
             android:textSize="23sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/password"
+            app:layout_constraintBottom_toTopOf="@+id/passwordRegister"
             app:layout_constraintStart_toStartOf="parent" />
 
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/passwordRegister"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
@@ -136,7 +136,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password"
+            app:layout_constraintTop_toBottomOf="@id/passwordRegister"
             app:layout_constraintVertical_bias="0.218"
             app:layout_constraintWidth_percent="0.7" />
 
@@ -156,7 +156,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintTop_toBottomOf="@+id/passwordRegister"
             app:layout_constraintVertical_bias="0.561"
             app:layout_constraintWidth_percent="0.5" />
 
@@ -168,7 +168,7 @@
             android:textColor="@color/main_grey_text_color"
             android:textSize="45sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/username"
+            app:layout_constraintBottom_toTopOf="@+id/usernameRegister"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
