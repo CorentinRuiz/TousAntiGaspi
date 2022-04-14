@@ -3,6 +3,7 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="main_background">#F0ECEC</color>
     <color name="main_grey_text_color">#707070</color>
+    <color name="green_app_color">#4ABA4E</color>
     <color name="grey_bar_color">#8C8391</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
