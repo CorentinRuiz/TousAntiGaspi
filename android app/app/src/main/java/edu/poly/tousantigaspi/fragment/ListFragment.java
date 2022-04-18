@@ -65,7 +65,10 @@ public class ListFragment extends Fragment {
         popupWindow.setElevation(20);
         popupWindow.showAtLocation(view, Gravity.BOTTOM,130,400);
 
-        viewPopupWindow.findViewById(R.id.AddProductButton).setOnClickListener(click -> openAddProductPopUp(view));
+        viewPopupWindow.findViewById(R.id.AddProductButton).setOnClickListener(click -> {
+            openAddProductPopUp(view);
+            popupWindow.dismiss();
+        });
 
         viewPopupWindow.findViewById(R.id.AddProductBarCodeButton).setOnClickListener(click -> openBarCodeScanner());
 
@@ -80,11 +83,11 @@ public class ListFragment extends Fragment {
 
         LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewPopupWindow = layoutInflater.inflate(R.layout.popup_add_manually_product,null);
-        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,1000,true);
+        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,1100,true);
 
         popupWindow.setAnimationStyle(R.style.popup_window_animation);
         popupWindow.setElevation(20);
-        popupWindow.showAtLocation(view, Gravity.BOTTOM,140,350);
+        popupWindow.showAtLocation(view, Gravity.BOTTOM,145,355);
 
     }
 }

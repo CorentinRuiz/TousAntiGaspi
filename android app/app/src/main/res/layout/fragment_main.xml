@@ -22,6 +22,74 @@
         android:layout_marginStart="10dp"
         android:textStyle="bold" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="70dp"
+        android:layout_gravity="center|end"
+        android:textSize="20sp"
+        android:layout_marginBottom="150dp"
+        android:text="Mon Frigo"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="90dp"
+        android:layout_gravity="center|end"
+        android:layout_marginBottom="140dp" />
+
+    <Spinner
+        android:id="@+id/quantity"
+        android:elevation="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:background="@drawable/rounded_edit_text"
+        android:inputType="text"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="125dp"
+        android:layout_gravity="center|end"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="70dp"
+        android:layout_gravity="center|start"
+        android:textSize="20sp"
+        android:layout_marginBottom="60dp"
+        android:text="Aucun produit ne périme bientôt"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/main_grey_text_color"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="210dp"
+        android:layout_marginTop="15dp"
+        android:layout_height="2dp"
+        android:background="@color/main_grey_text_color"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="90dp"
+        android:layout_gravity="center|start"
+        android:layout_marginBottom="50dp" />
+
+    <ListView
+        android:id="@+id/list_item_main"
+        android:layout_width="match_parent"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:layout_height="280dp"
+        android:scrollbars="none"
+        android:layout_marginBottom="35dp"
+        android:layout_gravity="bottom"/>
+
 
 
 

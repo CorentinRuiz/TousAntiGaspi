@@ -36,6 +36,7 @@
 
         <EditText
             android:id="@+id/username"
+            android:elevation="15dp"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
@@ -66,6 +67,7 @@
         <EditText
             android:id="@+id/password"
             android:layout_width="0dp"
+            android:elevation="15dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
             android:paddingStart="10dp"

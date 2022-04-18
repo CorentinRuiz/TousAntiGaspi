@@ -59,6 +59,7 @@
         android:maxLength="20"
         android:textAllCaps="false"
         android:layout_width="0dp"
+        android:elevation="15dp"
         android:layout_height="50dp"
         android:background="@drawable/rounded_edit_text"
         android:inputType="text"

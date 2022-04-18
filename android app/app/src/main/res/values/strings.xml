@@ -4,4 +4,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="need_register"><u>Besoin de vous inscrire ?</u></string>
     <string name="need_login"><u>Déjà un compte ? connectez-vous !</u></string>
+
+    <string-array name="quantity_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
 </resources>

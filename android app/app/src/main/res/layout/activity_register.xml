@@ -37,6 +37,7 @@
         <EditText
             android:id="@+id/usernameRegister"
             android:layout_width="0dp"
+            android:elevation="15dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
             android:inputType="text"
@@ -66,6 +67,7 @@
 
         <EditText
             android:id="@+id/email"
+            android:elevation="15dp"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
@@ -96,6 +98,7 @@
         <EditText
             android:id="@+id/passwordRegister"
             android:layout_width="0dp"
+            android:elevation="15dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
             android:inputType="textPassword"
@@ -126,6 +129,7 @@
         <EditText
             android:id="@+id/confirmPassword"
             android:layout_width="0dp"
+            android:elevation="15dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_edit_text"
             android:inputType="textPassword"

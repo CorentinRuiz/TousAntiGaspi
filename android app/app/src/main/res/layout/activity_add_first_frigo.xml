@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/imageView"
+
         android:layout_width="wrap_content"
         android:layout_height="400dp"
         android:background="@drawable/colored_background"
@@ -88,6 +89,7 @@
     <EditText
         android:id="@+id/frigoInput"
         android:layout_width="0dp"
+        android:elevation="15dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/rounded_edit_text"

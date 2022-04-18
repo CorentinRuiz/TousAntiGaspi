@@ -15,27 +15,27 @@
         </shape>
     </item>
 
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#000000" />
-            <corners
-                android:topRightRadius="100dp"
-                android:topLeftRadius="100dp"
-                android:bottomLeftRadius="100dp"
-                android:bottomRightRadius="100dp" />
-        </shape>
+    <!-- <item>
+      <shape android:shape="rectangle">
+          <solid android:color="#000000" />
+          <corners
+              android:topRightRadius="100dp"
+              android:topLeftRadius="100dp"
+              android:bottomLeftRadius="100dp"
+              android:bottomRightRadius="100dp" />
+      </shape>
 
-    </item>
+  </item>-->
 
-    <item android:bottom="1px" android:right="1px">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
-            <corners
-                android:topRightRadius="100dp"
-                android:topLeftRadius="100dp"
-                android:bottomLeftRadius="100dp"
-                android:bottomRightRadius="100dp" />
-        </shape>
-    </item>
+<item android:bottom="1px" android:right="1px">
+      <shape android:shape="rectangle">
+          <solid android:color="@color/white" />
+          <corners
+              android:topRightRadius="100dp"
+              android:topLeftRadius="100dp"
+              android:bottomLeftRadius="100dp"
+              android:bottomRightRadius="100dp" />
+      </shape>
+  </item>
 
 </layer-list>
