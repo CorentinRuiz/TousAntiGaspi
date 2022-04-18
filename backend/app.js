@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const frigoRoutes = require('./routes/frigoRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 mongoose.connect('mongodb+srv://android_app:O10d0sV8KDrHb6cJ@tousantigaspi.yt9ta.mongodb.net/tousAntiGaspi?retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,5 +21,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/user', userRoutes);
+app.use('/frigo',frigoRoutes);
+app.use('/product',productRoutes);
 
 module.exports = app;

@@ -17,7 +17,6 @@ exports.register = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    console.log("ON ma requeter");
     console.log(req.body);
     User.findOne({username: req.body.username})
         .then(user => {
