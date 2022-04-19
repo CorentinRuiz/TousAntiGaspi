@@ -27,7 +27,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import edu.poly.tousantigaspi.R;
-import edu.poly.tousantigaspi.util.ProductRequester;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;

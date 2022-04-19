@@ -13,9 +13,9 @@
         android:background="@drawable/colored_background" />
 
     <TextView
+        android:id="@+id/welcomeMainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bonjour\nRobert !"
         android:textColor="@color/white"
         android:textSize="55sp"
         android:layout_marginTop="60dp"
@@ -46,14 +46,15 @@
         android:layout_marginBottom="140dp" />
 
     <Spinner
-        android:id="@+id/quantity"
+        android:id="@+id/frigoSpinner"
         android:elevation="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:background="@drawable/rounded_edit_text"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
         android:inputType="text"
-        android:layout_marginEnd="62dp"
+        android:background="@drawable/rounded_edit_text"
+        android:layout_marginEnd="50dp"
         android:layout_marginBottom="125dp"
         android:layout_gravity="center|end"/>
 
@@ -85,12 +86,9 @@
         android:layout_width="match_parent"
         android:divider="@null"
         android:listSelector="@android:color/transparent"
-        android:layout_height="280dp"
+        android:layout_height="290dp"
         android:scrollbars="none"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="22dp"
         android:layout_gravity="bottom"/>
-
-
-
 
 </FrameLayout>

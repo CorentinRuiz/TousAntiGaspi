@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.util.ApiClient;
+import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 import edu.poly.tousantigaspi.util.request.LoginRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginUser(LoginRequest loginRequest){
-        Call<String> loginResponseCall = ApiClient.getService().loginUser(loginRequest);
+        Call<String> loginResponseCall = ApiClient.getUserService().loginUser(loginRequest);
 
         loginResponseCall.enqueue(new Callback<String>() {
             @Override
@@ -61,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(response.isSuccessful()){
                     System.out.println("-----sucess---");
+                    UtilsSharedPreference.pushStringToPref(getApplicationContext(),"username",loginRequest.getUsername());
                     openMainActivity();
                 }else{
                     String message = "An error occurred please try it later ...";

@@ -7,9 +7,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import edu.poly.tousantigaspi.R;
+import edu.poly.tousantigaspi.util.ApiClient;
+import edu.poly.tousantigaspi.util.UtilsSharedPreference;
+import edu.poly.tousantigaspi.util.request.NameRequest;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FirstConnexionActivity extends AppCompatActivity {
 
@@ -42,7 +47,7 @@ public class FirstConnexionActivity extends AppCompatActivity {
 
 
         findViewById(R.id.nextButton).setOnClickListener(click -> {
-            openFirstFrigoActivity(submitName);
+            addNameToAccount(submitName);
         });
     }
 
@@ -50,13 +55,40 @@ public class FirstConnexionActivity extends AppCompatActivity {
         submitName = name;
     }
 
-    private void openFirstFrigoActivity(String name){
-        Intent intent = new Intent(this,AddFirstFrigoActivity.class);
-        intent.putExtra("name",name);
-        System.out.println(name);
+    private void addNameToAccount(String name){
+
+        NameRequest addNameRequest = new NameRequest();
+        System.out.println(UtilsSharedPreference.getStringFromPref(this,"username"));
+        addNameRequest.setUsername(UtilsSharedPreference.getStringFromPref(this,"username"));
+        addNameRequest.setName(name);
+
+        Call<String> getFrigoResponseCall = ApiClient.getUserService().addName(addNameRequest);
+
+        getFrigoResponseCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    System.out.println(response.body());
+                    openFirstFrigoActivity(name);
+                } else {
+                    System.out.println(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void openFirstFrigoActivity(String name) {
+        Intent intent = new Intent(this, AddFirstFrigoActivity.class);
+        intent.putExtra("name", name);
 
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_bottom,R.anim.slide_out_bottom);
+        overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
     }
 
 }

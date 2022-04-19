@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.util.ApiClient;
+import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 import edu.poly.tousantigaspi.util.request.RegisterRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,12 +69,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void registerUser(RegisterRequest registerRequest){
-        Call<String> registerResponseCall = ApiClient.getService().registerUsers(registerRequest);
+        Call<String> registerResponseCall = ApiClient.getUserService().registerUsers(registerRequest);
         registerResponseCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()){
                     System.out.println(response.body());
+                    UtilsSharedPreference.pushStringToPref(getApplicationContext(),"username",registerRequest.getUsername());
                     openFirstConnectionPage();
                 }else{
                     String message = "An error occurred please try it later ...";

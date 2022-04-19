@@ -14,8 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import edu.poly.tousantigaspi.R;
+import edu.poly.tousantigaspi.controller.FrigoController;
 import edu.poly.tousantigaspi.fragment.MainFragment;
-import edu.poly.tousantigaspi.util.ViewPagerAdapter;
+import edu.poly.tousantigaspi.util.adapter.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
 
@@ -28,12 +29,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragment  = new MainFragment();
-
-     SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
-     SharedPreferences.Editor editor = pref.edit();
-
-     editor.putInt("nbAppStart",pref.getInt("nbAppStart",0) + 1);
-     editor.apply();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
