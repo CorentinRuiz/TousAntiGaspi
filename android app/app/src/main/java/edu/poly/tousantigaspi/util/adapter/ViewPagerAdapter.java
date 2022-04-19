@@ -1,4 +1,4 @@
-package edu.poly.tousantigaspi.util;
+package edu.poly.tousantigaspi.util.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
