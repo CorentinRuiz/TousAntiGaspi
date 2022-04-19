@@ -12,12 +12,25 @@ exports.getFrigo = (req, res) => {
 
 exports.createFrigo  = (req, res) => {
     console.log(req.body);
-    User.update({username: req.body.username,}, {
+    User.update({username: req.body.username}, {
         $push:{
             frigo: {
                 name: req.body.name,
                 product: []
             }
+        }
+    }
+    ).then(valid =>{
+        if(valid) res.sendStatus(200);
+        else res.sendStatus(401);
+    })
+};
+
+exports.editFrigo  = (req, res) => {
+    console.log(req.body);
+    User.update({username: req.body.username,"frigo.name": req.body.frigoName}, {
+        $set:{
+            "frigo.$.name": req.body.name,  
         }
     }
     ).then(valid =>{

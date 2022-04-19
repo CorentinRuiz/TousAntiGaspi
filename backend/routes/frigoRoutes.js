@@ -3,7 +3,8 @@ const router = express.Router();
 
 const frigoController = require('../controllers/frigoController.js');
 
-router.get('/get', frigoController.getFrigo);
+router.post('/get', frigoController.getFrigo);
 router.post('/create', frigoController.createFrigo);
+router.put('/edit',frigoController.editFrigo);
 
 module.exports = router;

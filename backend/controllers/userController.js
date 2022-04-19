@@ -30,3 +30,30 @@ exports.login = (req, res) => {
         })
         .catch(error => res.status(500).json({error}));
 }
+
+exports.addName  = (req, res) => {
+    console.log(req.body);
+    if(req.body.name === ""){
+        res.sendStatus(400);
+    }
+
+    User.updateOne({username: req.body.username}, {
+        $set:{
+            name: req.body.name
+        }
+    }
+    ).then(valid =>{
+        if(valid) res.sendStatus(200);
+        else res.sendStatus(401);
+    })
+};
+
+exports.getName  = (req, res) => {
+    console.log(req.body);
+    User.findOne({username: req.body.username}).select('name -_id')
+        .then(name => {
+            console.log(name);
+            return res.send(name);
+        })
+        .catch(error => res.status(500).json({error}));
+};
