@@ -1,4 +1,4 @@
-package edu.poly.tousantigaspi.util;
+package edu.poly.tousantigaspi.util.adapter;
 
 import android.content.Context;
 import android.view.View;
