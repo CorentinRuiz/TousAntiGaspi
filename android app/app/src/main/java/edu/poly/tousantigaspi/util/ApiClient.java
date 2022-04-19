@@ -34,9 +34,15 @@ public class ApiClient {
     }
 
 
-    public static UserService getService(){
+    public static UserService getUserService(){
         UserService userService = getRetrofit().create(UserService.class);
 
         return userService;
+    }
+
+    public static FrigoService getFrigoService(){
+        FrigoService frigoService = getRetrofit().create(FrigoService.class);
+
+        return frigoService;
     }
 }
