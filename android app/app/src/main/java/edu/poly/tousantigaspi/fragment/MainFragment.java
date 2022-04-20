@@ -22,8 +22,10 @@ import edu.poly.tousantigaspi.controller.NameController;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.model.NameModel;
 import edu.poly.tousantigaspi.object.Product;
+import edu.poly.tousantigaspi.object.ProductWithoutPic;
 import edu.poly.tousantigaspi.util.adapter.FrigoAdapter;
 import edu.poly.tousantigaspi.util.adapter.ProductListAdapter;
+import edu.poly.tousantigaspi.util.factory.ProductFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,14 +69,19 @@ public class MainFragment extends Fragment {
         nameController.getName();
         controller.loadData();
 
-        products = new ArrayList<>();
-        products.add(new Product("Viande Haché","2 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
+        products = new ArrayList<Product>();
+
+        try {
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
 
         return inflater.inflate(R.layout.fragment_main, container, false);
     }

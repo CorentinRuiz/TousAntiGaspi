@@ -30,8 +30,10 @@ import edu.poly.tousantigaspi.controller.FrigoController;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.object.Frigo;
 import edu.poly.tousantigaspi.object.Product;
+import edu.poly.tousantigaspi.object.ProductWithoutPic;
 import edu.poly.tousantigaspi.util.adapter.FrigoAdapter;
 import edu.poly.tousantigaspi.util.adapter.ProductListAdapter;
+import edu.poly.tousantigaspi.util.factory.ProductFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,14 +68,20 @@ public class ListFragment extends Fragment {
         controller = new FrigoController(this);
         controller.loadData();
 
-        products = new ArrayList<Product>();
-        products.add(new Product("Viande Haché","2 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
-        products.add(new Product("Eau pétillante", "40 jours"));
+        products = new ArrayList<>();
+
+        try {
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
 
         adapter = new ProductListAdapter(requireContext(),products);
 
