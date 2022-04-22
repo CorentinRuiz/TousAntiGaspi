@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                     UtilsSharedPreference.pushStringToPref(getApplicationContext(),"username",registerRequest.getUsername());
                     openFirstConnectionPage();
                 }else{
-                    String message = "An error occurred please try it later ...";
+                    String message = getString(R.string.error);
 
                     Toast.makeText(RegisterActivity.this,message,Toast.LENGTH_LONG).show();
                 }

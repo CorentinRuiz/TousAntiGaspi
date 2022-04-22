@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     UtilsSharedPreference.pushStringToPref(getApplicationContext(),"username",loginRequest.getUsername());
                     openMainActivity();
                 }else{
-                    String message = "An error occurred please try it later ...";
+                    String message = getString(R.string.error);
 
                     Toast.makeText(LoginActivity.this,message,Toast.LENGTH_LONG).show();
                 }

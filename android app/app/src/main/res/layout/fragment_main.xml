@@ -30,7 +30,7 @@
         android:layout_gravity="center|end"
         android:textSize="20sp"
         android:layout_marginBottom="150dp"
-        android:text="Mon Frigo"
+        android:text="@string/my_fridge"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textStyle="bold" />
@@ -66,7 +66,7 @@
         android:layout_gravity="center|start"
         android:textSize="20sp"
         android:layout_marginBottom="60dp"
-        android:text="Aucun produit ne périme bientôt"
+        android:text="@string/no_product_expires_soon"
         android:layout_marginTop="10dp"
         android:textColor="@color/main_grey_text_color"
         android:textStyle="bold" />

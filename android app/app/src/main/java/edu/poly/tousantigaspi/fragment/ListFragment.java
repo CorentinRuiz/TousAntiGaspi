@@ -71,13 +71,13 @@ public class ListFragment extends Fragment {
         products = new ArrayList<>();
 
         try {
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
 
         } catch (Throwable throwable) {
             throwable.printStackTrace();

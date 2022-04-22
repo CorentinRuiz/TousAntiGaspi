@@ -10,7 +10,7 @@
         android:id="@+id/AddProductButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Ajouter manuellement"
+        android:text="@string/add_manually"
         android:background="@android:color/transparent"
         android:textColor="@color/main_grey_text_color"
         app:layout_constraintBottom_toTopOf="@+id/view"
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
-        android:text="Ajouter par code barre"
+        android:text="@string/add_by_barcode"
         android:textColor="@color/main_grey_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AddProductButton" />

@@ -112,7 +112,7 @@ public class BarCodeScannerActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "You need the camera permission to use this feature !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.camera_permission_needed), Toast.LENGTH_SHORT).show();
             }
         }
     }

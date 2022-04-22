@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="need_register"><u>Besoin de vous inscrire ?</u></string>
+    <string name="need_login"><u>Déjà un compte ? Connectez-vous !</u></string>
+    <string name="create_first_fridge">Créons ton premier frigo</string>
+    <string name="name_fridge">Indique le nom de ton frigo, et tu pourras te lancer dans l\'ajout de tes produits !</string>
+    <string name="welcome">Bienvenue !</string>
+    <string name="lets_go">C\'est parti</string>
+    <string name="to_continue">Continuer</string>
+    <string name="whats_your_name">C\'est quoi ton petit nom ?</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="login">Connexion</string>
+    <string name="log_in">Connectez-vous !</string>
+    <string name="add_manually">Ajouter manuellement</string>
+    <string name="add_by_barcode">Ajouter par code barre</string>
+    <string name="name_of_product">Nom du produit</string>
+    <string name="expiration_date">Date de péremption</string>
+    <string name="change_fridge_name">Modifier le nom du frigo</string>
+    <string name="settings">Paramètres</string>
+    <string name="my_fridge">Mon Frigo</string>
+    <string name="no_product_expires_soon">Aucun produit ne périme bientôt</string>
+    <string name="your_products">Vos produits</string>
+    <string name="quantity">Quantité</string>
+    <string name="hello">Bonjour</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirmer mot de passe</string>
+    <string name="register">S\'inscrire</string>
+    <string name="registration">Inscription</string>
+    <string name="days">jours</string>
+    <string name="camera_permission_needed">Vous avez besoin de l\'autorisation de la caméra pour utiliser cette fonctionnalité !</string>
+    <string name="error">Une erreur s\'est produite. Veuillez essayer plus tard...</string>
+</resources>

@@ -72,13 +72,13 @@ public class MainFragment extends Fragment {
         products = new ArrayList<Product>();
 
         try {
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 jours","Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
+            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -117,7 +117,7 @@ public class MainFragment extends Fragment {
     }
 
     public void notifiedForChangeName(NameModel model) {
-        String welcomeText = "Bonjour\n" + model.getName() + " !";
+        String welcomeText = getString(R.string.hello) + "\n" + model.getName() + " !";
         welcome.setText(welcomeText);
     }
 }
