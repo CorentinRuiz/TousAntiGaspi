@@ -4,7 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const frigoSchema = mongoose.Schema({
     name: {type: String, required: true},
-    products: [Product]
+    products: []
 });
 
 frigoSchema.plugin(uniqueValidator);
