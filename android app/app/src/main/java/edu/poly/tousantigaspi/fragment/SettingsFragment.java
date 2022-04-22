@@ -2,11 +2,15 @@ package edu.poly.tousantigaspi.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import edu.poly.tousantigaspi.R;
 
@@ -16,6 +20,8 @@ import edu.poly.tousantigaspi.R;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
+    private Button resetBtn;
+    private Button switchLocalButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +61,17 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        resetBtn = view.findViewById(R.id.reset);
+        switchLocalButton = view.findViewById(R.id.change_locale);
+
+        resetBtn.setOnClickListener(view1 -> Toast.makeText(view.getContext(), getString(R.string.unavailable), Toast.LENGTH_LONG).show());
+
+        switchLocalButton.setOnClickListener(view1 -> Toast.makeText(view.getContext(), getString(R.string.unavailable), Toast.LENGTH_LONG).show());
     }
 
     @Override

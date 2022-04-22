@@ -43,11 +43,11 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(click -> {
             if(TextUtils.isEmpty(eEmail.getText().toString()) || TextUtils.isEmpty(eUsername.getText().toString()) || TextUtils.isEmpty(ePassword.getText().toString())){
 
-                String message = "All inputs is required";
+                String message = getString(R.string.all_input_required);
                 Toast.makeText(RegisterActivity.this,message,Toast.LENGTH_LONG).show();
             }
             else if(!TextUtils.equals(ePassword.getText(),eCpassword.getText())){
-                String message = "The password's fields are not the same";
+                String message = getString(R.string.passwords_not_same);
                 Toast.makeText(RegisterActivity.this,message,Toast.LENGTH_LONG).show();
             }else{
                 RegisterRequest request = new RegisterRequest();

@@ -29,5 +29,10 @@
     <string name="registration">Inscription</string>
     <string name="days">jours</string>
     <string name="camera_permission_needed">Vous avez besoin de l\'autorisation de la caméra pour utiliser cette fonctionnalité !</string>
-    <string name="error">Une erreur s\'est produite. Veuillez essayer plus tard...</string>
+    <string name="error">Une erreur s\'est produite. Veuillez essayer plus tard…</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="switch_locale">Passer à l\'anglais</string>
+    <string name="all_input_required">Toutes les entrées sont requises</string>
+    <string name="passwords_not_same">Les mots de passe ne sont pas identiques</string>
+    <string name="unavailable">Indisponible</string>
 </resources>
