@@ -1,13 +1,16 @@
 const User = require('../models/userModel');
 const Frigo = require('../models/frigoModel')
 
+
 exports.getFrigo = (req, res) => {
-    Frigo.findOne({_id: req.body.id})
-        .then(frigos => {
-            console.log(frigos);
+    User.findOne({username: req.body.username})
+    .then(user => {
+        Frigo.find({
+            '_id': { $in: user.frigo }
+        }).then(frigos =>{
             return res.send(frigos);
         })
-        .catch(error => res.status(500).json({error}));
+    })
 };
 
 exports.createFrigo  = (req, res) => {
