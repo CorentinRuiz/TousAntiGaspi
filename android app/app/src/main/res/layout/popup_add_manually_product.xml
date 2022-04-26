@@ -6,6 +6,7 @@
     android:background="@drawable/popup_background_shape">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/submitProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_icon_awesome_check"
@@ -27,11 +28,11 @@
         android:textColor="@color/main_grey_text_color"
         android:textSize="23sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/productNameTv"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/date"
+        android:id="@+id/dateTv"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:elevation="15dp"
@@ -43,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.341"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText"
+        app:layout_constraintTop_toBottomOf="@id/productNameTv"
         app:layout_constraintVertical_bias="0.268"
         app:layout_constraintWidth_percent="0.8" />
 
@@ -56,11 +57,11 @@
         android:textColor="@color/main_grey_text_color"
         android:textSize="23sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/quantity"
+        app:layout_constraintBottom_toTopOf="@+id/quantityTv"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/productNameTv"
         android:elevation="15dp"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -77,7 +78,7 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <Spinner
-        android:id="@+id/quantity"
+        android:id="@+id/quantityTv"
         android:elevation="15dp"
         android:entries="@array/quantity_array"
         android:layout_width="0dp"
@@ -90,7 +91,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@+id/dateTv"
         app:layout_constraintVertical_bias="0.401"
         app:layout_constraintWidth_percent="0.4" />
 
@@ -103,7 +104,7 @@
         android:textColor="@color/main_grey_text_color"
         android:textSize="23sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/date"
+        app:layout_constraintBottom_toTopOf="@+id/dateTv"
         app:layout_constraintStart_toStartOf="parent" />
 
 

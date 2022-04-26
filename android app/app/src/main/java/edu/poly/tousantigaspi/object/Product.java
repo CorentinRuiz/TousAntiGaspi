@@ -1,11 +1,14 @@
 package edu.poly.tousantigaspi.object;
 
 public abstract class Product {
+
+    private String id;
     private String name;
     private String dateRemaining;
     private Integer quantity;
 
-    public Product(String name, String dateRemaining,Integer quantity) {
+    public Product(String id,String name, String dateRemaining,Integer quantity) {
+        this.id = id;
         this.name = name;
         this.dateRemaining = dateRemaining;
         this.quantity = quantity;

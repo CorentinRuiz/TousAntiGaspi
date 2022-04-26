@@ -13,10 +13,10 @@ public class ProductFactory extends Factory{
     public static final int WITH_PIC = 1;
 
     @Override
-    public Product build(int type,Integer quantity,String path,String date,String name) throws Throwable {
+    public Product build(String id,int type,Integer quantity,String path,String date,String name) throws Throwable {
        switch (type){
-           case WITHOUT_PIC: return new ProductWithoutPic(name,date,quantity);
-           case WITH_PIC: return new ProductWithPic(name,date,path,quantity);
+           case WITHOUT_PIC: return new ProductWithoutPic(id,name,date,quantity);
+           case WITH_PIC: return new ProductWithPic(id,name,date,path,quantity);
            default: throw new Throwable("can made this type");
        }
     }

@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if(response.isSuccessful()){
-                    System.out.println("-----sucess---");
                     UtilsSharedPreference.pushStringToPref(getApplicationContext(),"username",loginRequest.getUsername());
                     openMainActivity();
                 }else{
