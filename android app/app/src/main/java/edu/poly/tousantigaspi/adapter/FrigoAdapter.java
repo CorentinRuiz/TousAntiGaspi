@@ -1,9 +1,8 @@
-package edu.poly.tousantigaspi.util.adapter;
+package edu.poly.tousantigaspi.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -15,26 +14,25 @@ import java.util.List;
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.object.Frigo;
-import edu.poly.tousantigaspi.object.Product;
 
 public class FrigoAdapter extends BaseAdapter {
 
      Context context;
-     FrigoModel model;
+     List<Frigo> frigos;
 
-    public FrigoAdapter(@NonNull Context context, FrigoModel model) {
+    public FrigoAdapter(@NonNull Context context, List<Frigo> frigos) {
         this.context = context;
-        this.model = model;
+        this.frigos = frigos;
     }
 
     @Override
     public int getCount() {
-        return model.getFrigos().size();
+        return frigos.size();
     }
 
     @Override
     public Frigo getItem(int position) {
-        return model.getFrigo(position);
+        return frigos.get(position);
     }
 
     @Override
@@ -48,8 +46,17 @@ public class FrigoAdapter extends BaseAdapter {
 
         layoutItem = (ConstraintLayout) (convertView == null ? View.inflate(context,R.layout.frigo_list_adapter, null) : convertView);
         TextView name = layoutItem.findViewById(R.id.frigoName);
-        name.setText(model.getFrigo(position).getName());
+        name.setText(frigos.get(position).getName());
 
         return layoutItem;
+    }
+
+    public void refresh(FrigoModel model) {
+        updateModel(model);
+        notifyDataSetChanged();
+    }
+
+    public void updateModel(FrigoModel model) {
+        this.frigos = model.getFrigos();
     }
 }

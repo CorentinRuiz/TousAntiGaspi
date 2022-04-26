@@ -3,24 +3,32 @@ package edu.poly.tousantigaspi.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.List;
+import java.util.Objects;
+
 import edu.poly.tousantigaspi.R;
-import edu.poly.tousantigaspi.controller.FrigoController;
+import edu.poly.tousantigaspi.fragment.ListFragment;
 import edu.poly.tousantigaspi.fragment.MainFragment;
-import edu.poly.tousantigaspi.util.adapter.ViewPagerAdapter;
+import edu.poly.tousantigaspi.adapter.ViewPagerAdapter;
+import edu.poly.tousantigaspi.model.FrigoModel;
+import edu.poly.tousantigaspi.object.Frigo;
+import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
 
-    Fragment fragment ;
+    Fragment fragment;
+    public ListFragment listFragment;
     private ViewPager2 viewPager;
     private BottomNavigationView mBottomNavigation;
     private ViewPagerAdapter pagerAdapter;
@@ -28,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         fragment  = new MainFragment();
 
         if (savedInstanceState == null) {

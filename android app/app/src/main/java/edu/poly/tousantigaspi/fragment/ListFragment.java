@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,43 +17,41 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.activity.BarCodeScannerActivity;
-import edu.poly.tousantigaspi.controller.FrigoController;
+import edu.poly.tousantigaspi.controller.Controller;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.object.Frigo;
-import edu.poly.tousantigaspi.object.Product;
+import edu.poly.tousantigaspi.adapter.FrigoAdapter;
+import edu.poly.tousantigaspi.adapter.ProductListAdapter;
 import edu.poly.tousantigaspi.object.ProductWithoutPic;
-import edu.poly.tousantigaspi.util.adapter.FrigoAdapter;
-import edu.poly.tousantigaspi.util.adapter.ProductListAdapter;
+import edu.poly.tousantigaspi.util.DateCalculator;
+import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 import edu.poly.tousantigaspi.util.factory.ProductFactory;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ListFragment extends Fragment {
 
     Spinner frigoSpinner;
-    FrigoController controller;
+    FrigoAdapter adapter;
     ListView productListView;
-    ProductListAdapter adapter;
-    private ArrayList<Product> products;
+    Controller controller;
+
+    int currentPosition;
+    private boolean modelCreated = false;
+    ProductListAdapter productListAdapter;
+    FrigoModel model;
+
 
     public ListFragment() {
 
-    }
-
-    public static ListFragment newInstance() {
-        ListFragment fragment = new ListFragment();
-        return fragment;
     }
 
     @Override
@@ -65,25 +62,9 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        controller = new FrigoController(this);
-        controller.loadData();
-
-        products = new ArrayList<>();
-
-        try {
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
-            products.add(new ProductFactory().build(ProductFactory.WITHOUT_PIC,1,"","20 " + getString(R.string.days),"Viande haché"));
-
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        adapter = new ProductListAdapter(requireContext(),products);
+        model = new FrigoModel(this);
+        controller = new Controller(model);
+        currentPosition = 0;
 
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
@@ -92,17 +73,34 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        model.loadFrigo(UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
+
+        frigoSpinner = view.findViewById(R.id.frigoSpinner);
         productListView = view.findViewById(R.id.list_item);
-        adapter = new ProductListAdapter(requireContext(),products);
-        productListView.setAdapter(adapter);
+
 
         view.findViewById(R.id.AddProduct).setOnClickListener(click ->{
             openPopUp(view);
         });
 
+        frigoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
+                productListAdapter.refresh(model,postion);
+                currentPosition = postion;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
+
         view.findViewById(R.id.frigoSettings).setOnClickListener(click ->{
             openUpdateFrigoPopUp(view);
         });
+
+
     }
 
     public void openPopUp(View view){
@@ -120,7 +118,6 @@ public class ListFragment extends Fragment {
         });
 
         viewPopupWindow.findViewById(R.id.AddProductBarCodeButton).setOnClickListener(click -> openBarCodeScanner());
-
     }
 
     public void openBarCodeScanner(){
@@ -143,7 +140,7 @@ public class ListFragment extends Fragment {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, -150);
 
         viewPopupWindow.findViewById(R.id.submitEditFrigo).setOnClickListener(click ->{
-            controller.editFrigos(input.getText().toString(),frigo.getName());
+            controller.editFrigo(input.getText().toString(),frigo.getId());
             popupWindow.dismiss();
         });
     }
@@ -158,25 +155,42 @@ public class ListFragment extends Fragment {
         popupWindow.setElevation(20);
         popupWindow.showAtLocation(view, Gravity.BOTTOM,145,355);
 
-    }
+        Spinner spinner = (Spinner) view.findViewById(R.id.frigoSpinner);
+        Frigo selected = (Frigo) spinner.getSelectedItem();
 
-    public void notifiedForChangeUI(FrigoModel model){
-        frigoSpinner = getView().findViewById(R.id.frigoSpinner);
-        frigoSpinner.setAdapter(new FrigoAdapter(requireContext(), model));
+        viewPopupWindow.findViewById(R.id.submitProduct).setOnClickListener(click -> {
+            Spinner quantity = viewPopupWindow.findViewById(R.id.quantityTv);
+            TextView date = viewPopupWindow.findViewById(R.id.dateTv);
+            TextView name = viewPopupWindow.findViewById(R.id.productNameTv);
 
-        frigoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
+            String dateString = date.getText().toString();
+            dateString = dateString.replace("/","-");
+            dateString = new StringBuilder(dateString).reverse().toString();
+            dateString = new DateCalculator().calculateDaysRemaining(dateString);
 
-            }
+            ProductWithoutPic productWithoutPic = new ProductWithoutPic("",name.getText().toString(),dateString,Integer.parseInt(quantity.getSelectedItem().toString()));
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-            }
+            controller.addProduct(selected.getId(),productWithoutPic);
+            popupWindow.dismiss();
         });
 
-        FrigoAdapter adapter = new FrigoAdapter(requireContext(),model);
-        frigoSpinner.setAdapter(adapter);
     }
+
+    public void update(ArrayList<Frigo> frigos) {
+        frigoSpinner = getView().findViewById(R.id.frigoSpinner);
+
+        if (!modelCreated) {
+            System.out.println("load data");
+            adapter = new FrigoAdapter(requireContext(),frigos);
+            productListAdapter = new ProductListAdapter(requireContext(),frigos.get(0).getProducts());
+            frigoSpinner.setAdapter(adapter);
+            productListView.setAdapter(productListAdapter);
+            modelCreated = true;
+        }
+        else {
+            adapter.refresh(model);
+            productListAdapter.refresh(model,currentPosition);
+        }
+    }
+
 }

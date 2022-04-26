@@ -4,10 +4,12 @@ import java.util.List;
 
 public class Frigo {
 
+    private String id;
     private String name;
     private List<Product> products;
 
-    public Frigo(String name,List<Product> products) {
+    public Frigo(String id,String name,List<Product> products) {
+        this.id = id;
         this.name = name;
         this.products = products;
     }
@@ -26,5 +28,13 @@ public class Frigo {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

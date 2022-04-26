@@ -1,5 +1,6 @@
 package edu.poly.tousantigaspi.util;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import edu.poly.tousantigaspi.util.request.CreateFrigoRequest;
@@ -16,7 +17,7 @@ public interface FrigoService {
     Call<String> createFrigo(@Body CreateFrigoRequest createFrigoRequest);
 
     @POST("/frigo/get")
-    Call<JsonObject> getFrigo(@Body GetRequestWithUsername username);
+    Call<JsonArray> getFrigo(@Body GetRequestWithUsername username);
 
     @PUT("/frigo/edit")
     Call<String> editFrigo(@Body EditFrigoRequest username);
