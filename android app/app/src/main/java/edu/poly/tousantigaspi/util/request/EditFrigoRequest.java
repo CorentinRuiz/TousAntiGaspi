@@ -1,18 +1,17 @@
 package edu.poly.tousantigaspi.util.request;
 
 public class EditFrigoRequest {
-    private String username;
+    private String id;
 
     private String name;
 
-    private String frigoName;
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -23,11 +22,4 @@ public class EditFrigoRequest {
         this.name = name;
     }
 
-    public String getFrigoName() {
-        return frigoName;
-    }
-
-    public void setFrigoName(String frigoName) {
-        this.frigoName = frigoName;
-    }
 }

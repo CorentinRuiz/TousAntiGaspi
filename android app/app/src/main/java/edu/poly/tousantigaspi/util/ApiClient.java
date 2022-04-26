@@ -45,4 +45,10 @@ public class ApiClient {
 
         return frigoService;
     }
+
+    public static ProductService getProductService(){
+        ProductService productService = getRetrofit().create(ProductService.class);
+
+        return productService;
+    }
 }
