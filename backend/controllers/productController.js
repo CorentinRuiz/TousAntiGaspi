@@ -1,13 +1,16 @@
 const Product= require('../models/productModel');
-const Frigo = require('../models/frigoModel')
+const Frigo = require('../models/frigoModel');
+const moment = require('moment');
 
 exports.getProducts = (req, res) => {
+    console.log(req.body);
     Frigo.findOne({_id: req.body.id})
     .then(frigos => {
         console.log(frigos.products);
         Product.find({
             '_id': { $in: frigos.products }
         }).then(products =>{
+            console.log(products);
             return res.send(products);
         })
     })
@@ -18,7 +21,7 @@ exports.addProduct  = (req, res) => {
 
     const product = new Product({
         name: req.body.name,
-        date: Date(req.body.date),
+        date: moment(req.body.date, 'DD/MM/YYYY').toDate(),
         quantity: req.body.quantity
     });
 
