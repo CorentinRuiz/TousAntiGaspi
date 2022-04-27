@@ -1,5 +1,7 @@
 package edu.poly.tousantigaspi.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +23,7 @@ import edu.poly.tousantigaspi.R;
  */
 public class SettingsFragment extends Fragment {
     private Button resetBtn;
-    private Button switchLocalButton;
+    private Button shopOnlineBtn;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,11 +69,14 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         resetBtn = view.findViewById(R.id.reset);
-        switchLocalButton = view.findViewById(R.id.change_locale);
+        shopOnlineBtn = view.findViewById(R.id.shop_online);
 
         resetBtn.setOnClickListener(view1 -> Toast.makeText(view.getContext(), getString(R.string.unavailable), Toast.LENGTH_LONG).show());
 
-        switchLocalButton.setOnClickListener(view1 -> Toast.makeText(view.getContext(), getString(R.string.unavailable), Toast.LENGTH_LONG).show());
+        shopOnlineBtn.setOnClickListener(view1 -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.auchan.fr"));
+            startActivity(browserIntent);
+        });
     }
 
     @Override
