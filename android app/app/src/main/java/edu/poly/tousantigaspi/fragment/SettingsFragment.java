@@ -1,8 +1,14 @@
 package edu.poly.tousantigaspi.fragment;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -11,6 +17,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -35,6 +43,10 @@ public class SettingsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private NotificationManagerCompat notificationManagerCompat;
+    private static final String CHANNEL_ID = "channelDefault";
+    private static int NOTIF_ID = 123;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -69,6 +81,9 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        this.createNotificationChannel();
+        this.notificationManagerCompat = NotificationManagerCompat.from(this.getContext());
     }
 
     @Override
@@ -92,6 +107,38 @@ public class SettingsFragment extends Fragment {
                     }
                 }
         );
+
+        Button btnNotif = view.findViewById(R.id.buttonNotif);
+        btnNotif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = requireContext();
+
+                Notification notification = new NotificationCompat.Builder(context, "channelDefault")
+                        .setSmallIcon(R.drawable.logo)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.burger))
+                        .setContentTitle("Produit bientôt périmé")
+                        .setContentText("Attention, votre hamburger se périme dans 3 jours !")
+                        .build();
+
+                notificationManagerCompat.notify(++NOTIF_ID, notification);
+            }
+        });
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is channel 1");
+
+            Context context = requireContext();
+            NotificationManager manager = context.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+        }
     }
 
     @Override
