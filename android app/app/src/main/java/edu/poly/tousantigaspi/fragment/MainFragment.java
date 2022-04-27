@@ -14,8 +14,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.poly.tousantigaspi.R;
+import edu.poly.tousantigaspi.activity.MainActivity;
 import edu.poly.tousantigaspi.controller.NameController;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.model.NameModel;
@@ -23,12 +25,13 @@ import edu.poly.tousantigaspi.object.Frigo;
 import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.adapter.FrigoAdapter;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
+import edu.poly.tousantigaspi.util.observer.FrigoObserver;
 
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements FrigoObserver {
 
     private static NameController nameController;
     private ListView productListView;
@@ -48,6 +51,9 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MainActivity activity = (MainActivity) getActivity();
+        model = activity.getFrigoModel();
     }
 
 
@@ -57,7 +63,6 @@ public class MainFragment extends Fragment {
         nameController = new NameController(this);
         nameController.getName();
 
-        model = new FrigoModel(this);
 
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -66,6 +71,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        model.addObs(this);
         model.loadFrigo(UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
 
         frigoSpinner = view.findViewById(R.id.frigoSpinner);
@@ -78,7 +84,8 @@ public class MainFragment extends Fragment {
         welcome.setText(welcomeText);
     }
 
-    public void update(ArrayList<Frigo> frigos) {
+    @Override
+    public void update(List<Frigo> frigos) {
         frigoSpinner = getView().findViewById(R.id.frigoSpinner);
         if (!modelCreated) {
             System.out.println("load data");

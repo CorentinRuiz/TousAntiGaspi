@@ -102,7 +102,7 @@ public class SettingsFragment extends Fragment {
         shopOnlineResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if(result.getResultCode() == Activity.RESULT_CANCELED) {
+                    if(result.getResultCode() == Activity.RESULT_CANCELED || result.getResultCode() == Activity.RESULT_OK) {
                         Toast.makeText(view.getContext(), getString(R.string.you_wont_waste), Toast.LENGTH_LONG).show();
                     }
                 }

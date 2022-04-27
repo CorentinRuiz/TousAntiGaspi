@@ -25,9 +25,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.activity.BarCodeScannerActivity;
+import edu.poly.tousantigaspi.activity.MainActivity;
 import edu.poly.tousantigaspi.controller.Controller;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.object.CodeScannerProduct;
@@ -38,12 +40,13 @@ import edu.poly.tousantigaspi.object.ManuallyProduct;
 import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.util.DateCalculator;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
+import edu.poly.tousantigaspi.util.observer.FrigoObserver;
 
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements FrigoObserver {
 
     Spinner frigoSpinner;
     FrigoAdapter adapter;
@@ -64,6 +67,8 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity activity = (MainActivity) getActivity();
+        model = activity.getFrigoModel();
 
          someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -83,7 +88,7 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        model = new FrigoModel(this);
+        model = new FrigoModel();
         controller = new Controller(model);
         currentPosition = 0;
 
@@ -95,11 +100,11 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        model.addObs(this);
         model.loadFrigo(UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
 
         frigoSpinner = view.findViewById(R.id.frigoSpinner);
         productListView = view.findViewById(R.id.list_item);
-
 
         view.findViewById(R.id.AddProduct).setOnClickListener(click ->{
             openPopUp(view);
@@ -203,7 +208,8 @@ public class ListFragment extends Fragment {
 
     }
 
-    public void update(ArrayList<Frigo> frigos) {
+    @Override
+    public void update(List<Frigo> frigos) {
         frigoSpinner = getView().findViewById(R.id.frigoSpinner);
 
         if (!modelCreated) {

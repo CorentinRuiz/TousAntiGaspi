@@ -14,21 +14,20 @@ import edu.poly.tousantigaspi.object.Frigo;
 import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.repositories.FrigoRepository;
 import edu.poly.tousantigaspi.util.ApiClient;
+import edu.poly.tousantigaspi.util.observer.FrigoObservable;
 import edu.poly.tousantigaspi.util.request.GetRequestWithUsername;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FrigoModel {
+public class FrigoModel extends FrigoObservable {
 
     private FrigoRepository repository;
     private ArrayList<Frigo> frigos;
-    private Fragment view;
 
-    public FrigoModel(Fragment fragment) {
+    public FrigoModel() {
         repository = FrigoRepository.getInstance();
         frigos = new ArrayList<>();
-        view = fragment;
     }
 
     public List<Frigo> getFrigos() {
@@ -61,18 +60,9 @@ public class FrigoModel {
 
     public void addProduct(String id,Product product){
         this.frigos.stream().filter(x -> x.getId().equals(id)).findFirst().get().getProducts().add(product);
-        notifyViewChange();
+        notifyObs(this.frigos);
     }
 
-
-    public void notifyViewChange(){
-        if(view instanceof MainFragment){
-            ((MainFragment) view).update(frigos);
-        }
-        else if(view instanceof ListFragment){
-            ((ListFragment) view).update(frigos);
-        }
-    }
 
 
 }

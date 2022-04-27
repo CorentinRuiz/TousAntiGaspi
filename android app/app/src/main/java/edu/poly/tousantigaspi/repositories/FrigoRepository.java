@@ -83,7 +83,7 @@ public class FrigoRepository {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()){
-                    model.notifyViewChange();
+                    model.notifyObs(model.getFrigos());
                 } else {
                     System.out.println(response.message());
                 }
@@ -119,7 +119,7 @@ public class FrigoRepository {
 
                         frigo.setProducts(products);
                         model.setFrigos(frigos);
-                        model.notifyViewChange();
+                        model.notifyObs(model.getFrigos());
 
                     } else {
                         System.out.println(response.message());

@@ -27,24 +27,16 @@ import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
 
-    Fragment fragment;
+
     public ListFragment listFragment;
     private ViewPager2 viewPager;
     private BottomNavigationView mBottomNavigation;
     private ViewPagerAdapter pagerAdapter;
+    private FrigoModel frigoModel = new FrigoModel();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        fragment  = new MainFragment();
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, fragment, "fragment_name")
-                    .commit();
-        }
 
         mBottomNavigation = findViewById(R.id.BottomNavBar);
         mBottomNavigation.setOnItemSelectedListener(this);
@@ -97,5 +89,13 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
 
         return true;
+    }
+
+    public FrigoModel getFrigoModel() {
+        return frigoModel;
+    }
+
+    public void setFrigoModel(FrigoModel frigoModel) {
+        this.frigoModel = frigoModel;
     }
 }
