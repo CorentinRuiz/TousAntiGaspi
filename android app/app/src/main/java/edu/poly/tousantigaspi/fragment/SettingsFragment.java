@@ -1,9 +1,14 @@
 package edu.poly.tousantigaspi.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,6 +29,7 @@ import edu.poly.tousantigaspi.R;
 public class SettingsFragment extends Fragment {
     private Button resetBtn;
     private Button shopOnlineBtn;
+    private ActivityResultLauncher<Intent> shopOnlineResult;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,8 +81,17 @@ public class SettingsFragment extends Fragment {
 
         shopOnlineBtn.setOnClickListener(view1 -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.auchan.fr"));
-            startActivity(browserIntent);
+            shopOnlineResult.launch(browserIntent);
         });
+
+        shopOnlineResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == Activity.RESULT_CANCELED) {
+                        Toast.makeText(view.getContext(), getString(R.string.you_wont_waste), Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
     }
 
     @Override

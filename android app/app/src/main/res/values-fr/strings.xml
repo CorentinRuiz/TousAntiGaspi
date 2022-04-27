@@ -35,4 +35,5 @@
     <string name="all_input_required">Toutes les entrées sont requises</string>
     <string name="passwords_not_same">Les mots de passe ne sont pas identiques</string>
     <string name="unavailable">Indisponible</string>
+    <string name="you_wont_waste">J\'espère que vous n\'allez pas gaspiller !</string>
 </resources>
