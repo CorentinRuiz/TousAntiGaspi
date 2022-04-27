@@ -186,7 +186,6 @@ public class ListFragment extends Fragment implements FrigoObserver {
         Frigo selected = (Frigo) spinner.getSelectedItem();
 
         EditText name = viewPopupWindow.findViewById(R.id.productNameTv);
-        System.out.println("PRODUCT:" + product.getName());
         if(product != null){
             name.setText(product.getName());
         }
