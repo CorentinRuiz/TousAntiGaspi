@@ -1,9 +1,14 @@
 package edu.poly.tousantigaspi.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,13 +30,14 @@ import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.activity.BarCodeScannerActivity;
 import edu.poly.tousantigaspi.controller.Controller;
 import edu.poly.tousantigaspi.model.FrigoModel;
+import edu.poly.tousantigaspi.object.CodeScannerProduct;
 import edu.poly.tousantigaspi.object.Frigo;
 import edu.poly.tousantigaspi.adapter.FrigoAdapter;
 import edu.poly.tousantigaspi.adapter.ProductListAdapter;
-import edu.poly.tousantigaspi.object.ProductWithoutPic;
+import edu.poly.tousantigaspi.object.ManuallyProduct;
+import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.util.DateCalculator;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
-import edu.poly.tousantigaspi.util.factory.ProductFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +54,7 @@ public class ListFragment extends Fragment {
     private boolean modelCreated = false;
     ProductListAdapter productListAdapter;
     FrigoModel model;
+    ActivityResultLauncher<Intent> someActivityResultLauncher;
 
 
     public ListFragment() {
@@ -57,6 +64,20 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+         someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+
+                            Intent data = result.getData();
+
+                            openAddProductPopUp(getView(),data.getExtras().getParcelable("productScanner"));
+                        }
+                    }
+                });
     }
 
     @Override
@@ -65,6 +86,7 @@ public class ListFragment extends Fragment {
         model = new FrigoModel(this);
         controller = new Controller(model);
         currentPosition = 0;
+
 
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
@@ -113,7 +135,7 @@ public class ListFragment extends Fragment {
         popupWindow.showAtLocation(view, Gravity.BOTTOM,130,400);
 
         viewPopupWindow.findViewById(R.id.AddProductButton).setOnClickListener(click -> {
-            openAddProductPopUp(view);
+            openAddProductPopUp(view,null);
             popupWindow.dismiss();
         });
 
@@ -122,7 +144,7 @@ public class ListFragment extends Fragment {
 
     public void openBarCodeScanner(){
         Intent openBarCodeScannerActivity = new Intent(requireContext(), BarCodeScannerActivity.class);
-        startActivity(openBarCodeScannerActivity);
+        someActivityResultLauncher.launch(openBarCodeScannerActivity);
     }
 
     public void openUpdateFrigoPopUp(View view){
@@ -145,7 +167,7 @@ public class ListFragment extends Fragment {
         });
     }
 
-    public void openAddProductPopUp(View view){
+    public void openAddProductPopUp(View view, CodeScannerProduct product){
 
         LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewPopupWindow = layoutInflater.inflate(R.layout.popup_add_manually_product,null);
@@ -158,19 +180,24 @@ public class ListFragment extends Fragment {
         Spinner spinner = (Spinner) view.findViewById(R.id.frigoSpinner);
         Frigo selected = (Frigo) spinner.getSelectedItem();
 
+        EditText name = viewPopupWindow.findViewById(R.id.productNameTv);
+        System.out.println("PRODUCT:" + product.getName());
+        if(product != null){
+            name.setText(product.getName());
+        }
+
         viewPopupWindow.findViewById(R.id.submitProduct).setOnClickListener(click -> {
             Spinner quantity = viewPopupWindow.findViewById(R.id.quantityTv);
-            TextView date = viewPopupWindow.findViewById(R.id.dateTv);
-            TextView name = viewPopupWindow.findViewById(R.id.productNameTv);
+            EditText date = viewPopupWindow.findViewById(R.id.dateTv);
 
             String dateString = date.getText().toString();
             dateString = dateString.replace("/","-");
             dateString = new StringBuilder(dateString).reverse().toString();
             dateString = new DateCalculator().calculateDaysRemaining(dateString);
 
-            ProductWithoutPic productWithoutPic = new ProductWithoutPic("",name.getText().toString(),dateString,Integer.parseInt(quantity.getSelectedItem().toString()));
+            ManuallyProduct manuallyProduct = new ManuallyProduct("",name.getText().toString(),dateString,Integer.parseInt(quantity.getSelectedItem().toString()));
 
-            controller.addProduct(selected.getId(),productWithoutPic);
+            controller.addProduct(selected.getId(), manuallyProduct);
             popupWindow.dismiss();
         });
 

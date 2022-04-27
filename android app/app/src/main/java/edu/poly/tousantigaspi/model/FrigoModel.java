@@ -47,6 +47,10 @@ public class FrigoModel {
        repository.getFrigos(username,this);
     }
 
+    public void loadPastDLCProduct(String username){
+
+    }
+
     public void setFrigos(ArrayList<Frigo> frigos) {
         this.frigos = frigos;
     }

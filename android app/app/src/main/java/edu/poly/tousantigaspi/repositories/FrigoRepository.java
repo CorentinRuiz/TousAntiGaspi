@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.object.Frigo;
 import edu.poly.tousantigaspi.object.Product;
-import edu.poly.tousantigaspi.object.ProductWithoutPic;
+import edu.poly.tousantigaspi.object.ManuallyProduct;
 import edu.poly.tousantigaspi.util.ApiClient;
 import edu.poly.tousantigaspi.util.DateCalculator;
 import edu.poly.tousantigaspi.util.request.AddProductRequest;
@@ -111,7 +111,7 @@ public class FrigoRepository {
                         JsonArray product_array = response.body();
 
                         ArrayList<Product> products = new ArrayList<>();
-                        product_array.forEach(x -> products.add(new ProductWithoutPic(x.getAsJsonObject().get("_id").toString().replace("\"", "")
+                        product_array.forEach(x -> products.add(new ManuallyProduct(x.getAsJsonObject().get("_id").toString().replace("\"", "")
                         , x.getAsJsonObject().get("name").toString().replace("\"", "")
                         , new DateCalculator().calculateDaysRemaining(x.getAsJsonObject().get("date").toString().replace("\"", "").split("T")[0]),
                         Integer.parseInt(x.getAsJsonObject().get("quantity").toString().replace("\"", ""))) {

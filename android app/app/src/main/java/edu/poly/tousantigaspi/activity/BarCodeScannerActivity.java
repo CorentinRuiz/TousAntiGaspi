@@ -1,10 +1,13 @@
 package edu.poly.tousantigaspi.activity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import edu.poly.tousantigaspi.R;
+import edu.poly.tousantigaspi.object.CodeScannerProduct;
+import edu.poly.tousantigaspi.object.Product;
+import edu.poly.tousantigaspi.util.factory.ProductFactory;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -46,6 +52,23 @@ public class BarCodeScannerActivity extends AppCompatActivity {
 
         setupPermissions();
         codeScanner();
+
+        ImageButton button = findViewById(R.id.arrowButton);
+        button.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+
+        button.setOnClickListener(click ->{
+            try {
+                CodeScannerProduct product = new CodeScannerProduct("","name","Test",0);
+                getIntent().putExtra("productScanner",product);
+                setResult(Activity.RESULT_OK,getIntent());
+                finish();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+
+
+        });
     }
 
     private void codeScanner(){
@@ -68,6 +91,7 @@ public class BarCodeScannerActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         setProductName(result.getText().toString());
+
                     }
                 });
             }
@@ -142,6 +166,20 @@ public class BarCodeScannerActivity extends AppCompatActivity {
                         public void run() {
                             TextView text = (TextView) findViewById(R.id.productName);
                             text.setText(name);
+
+
+                            ImageButton button = findViewById(R.id.arrowButton);
+                            button.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+                            button.setOnClickListener(click ->{
+                                try {
+                                    Product product = new ProductFactory().build("",ProductFactory.CODE_SCANNER,0,"",name);
+
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+
+                                finish();
+                            });
                         }
                     });
 

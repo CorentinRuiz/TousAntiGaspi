@@ -4,6 +4,6 @@ import edu.poly.tousantigaspi.object.Product;
 
 abstract class Factory {
 
-    public abstract Product build(String id,int type,Integer quantity,String path,String date,String name) throws Throwable;
+    public abstract Product build(String id,int type,Integer quantity,String date,String name) throws Throwable;
 
 }
