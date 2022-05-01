@@ -2,6 +2,7 @@ package edu.poly.tousantigaspi.repositories;
 
 import com.google.gson.JsonArray;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import edu.poly.tousantigaspi.model.FrigoModel;
@@ -24,13 +25,6 @@ import retrofit2.Response;
 public class FrigoRepository {
 
     private static FrigoRepository instance;
-    private ArrayList<Frigo> frigos = new ArrayList<>();
-    FrigoModel model;
-
-
-    public void setFrigos(ArrayList<Frigo> frigos) {
-        this.frigos = frigos;
-    }
 
     public static FrigoRepository getInstance() {
         if (instance == null) {
@@ -86,7 +80,7 @@ public class FrigoRepository {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    model.notifyObs(model.getFrigos());
+                    model.notifyObs(model);
                 } else {
                     System.out.println(response.message());
                 }
@@ -118,14 +112,14 @@ public class FrigoRepository {
                                 x.getAsJsonObject().get("_id").toString().replace("\"", ""),
                                 ProductFactory.MANUALLY,
                                 Integer.parseInt(x.getAsJsonObject().get("quantity").toString().replace("\"", "")),
-                                new DateCalculator().calculateDaysRemaining(x.getAsJsonObject().get("date").toString().replace("\"", "").split("T")[0]),
+                                new DateCalculator().calculateDaysRemaining(x.getAsJsonObject().get("date").toString().replace("\"", "").split("T")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                                 x.getAsJsonObject().get("name").toString().replace("\"", ""))));
 
 
                         frigo.setProducts(products);
                         model.setFrigos(frigos);
-                        model.notifyObs(model.getFrigos());
-
+                        model.loadPastDLCProduct();
+                        model.notifyObs(model);
                     } else {
                         System.out.println(response.message());
                     }

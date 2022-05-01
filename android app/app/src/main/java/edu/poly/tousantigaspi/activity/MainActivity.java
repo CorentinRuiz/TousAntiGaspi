@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.poly.tousantigaspi.R;
+import edu.poly.tousantigaspi.controller.Controller;
 import edu.poly.tousantigaspi.fragment.ListFragment;
 import edu.poly.tousantigaspi.fragment.MainFragment;
 import edu.poly.tousantigaspi.adapter.ViewPagerAdapter;
@@ -28,15 +29,17 @@ import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
 
 
-    public ListFragment listFragment;
     private ViewPager2 viewPager;
     private BottomNavigationView mBottomNavigation;
     private ViewPagerAdapter pagerAdapter;
+    private Controller controller;
     private FrigoModel frigoModel = new FrigoModel();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        controller = new Controller(frigoModel);
 
         mBottomNavigation = findViewById(R.id.BottomNavBar);
         mBottomNavigation.setOnItemSelectedListener(this);
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         return frigoModel;
     }
 
-    public void setFrigoModel(FrigoModel frigoModel) {
-        this.frigoModel = frigoModel;
+    public Controller getController() {
+        return controller;
     }
 }

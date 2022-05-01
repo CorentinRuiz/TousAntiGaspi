@@ -73,12 +73,17 @@ public class ProductListAdapter extends BaseAdapter {
        return v;
     }
 
-    public void refresh(FrigoModel model,int position) {
-        updateModel(model,position);
+    public void refresh(FrigoModel model,int position,boolean pastDlc) {
+        updateModel(model,position,pastDlc);
         notifyDataSetChanged();
     }
 
-    public void updateModel(FrigoModel model,int position) {
-        this.products = model.getFrigo(position).getProducts();
+    public void updateModel(FrigoModel model,int position,boolean pastDlc) {
+        if(pastDlc){
+            this.products = model.getCurrentPastDlcProduct().get(model.getFrigos().get(position).getName());
+        }else{
+            this.products = model.getFrigo(position).getProducts();
+        }
+
     }
 }

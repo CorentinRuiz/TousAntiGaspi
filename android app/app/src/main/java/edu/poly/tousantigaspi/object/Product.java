@@ -48,4 +48,8 @@ public abstract class Product  {
     public void setId(String id) {
         this.id = id;
     }
+
+    public boolean isPast(){
+        return Integer.parseInt(this.dateRemaining.split(" ")[0]) < 5;
+    }
 }

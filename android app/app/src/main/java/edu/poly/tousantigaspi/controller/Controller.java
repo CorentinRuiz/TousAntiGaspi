@@ -24,6 +24,10 @@ public class Controller {
         model.addProduct(frigoId,product);
         repository.addProduct(product,frigoId,model);
     }
+    public void deleteFrigo(String id){
+        model.deleteFrigo(id);
+        //repository.editFrigo(newName,id,model);
+    }
 
 
 

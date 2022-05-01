@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.util.DateCalculator;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 import edu.poly.tousantigaspi.util.observer.FrigoObserver;
+import edu.poly.tousantigaspi.viewmodels.CurrentPositionViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,8 +55,8 @@ public class ListFragment extends Fragment implements FrigoObserver {
     FrigoAdapter adapter;
     ListView productListView;
     Controller controller;
+    CurrentPositionViewModel currentPositionViewModel;
 
-    int currentPosition;
     private boolean modelCreated = false;
     ProductListAdapter productListAdapter;
     FrigoModel model;
@@ -68,7 +71,9 @@ public class ListFragment extends Fragment implements FrigoObserver {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MainActivity activity = (MainActivity) getActivity();
+
         model = activity.getFrigoModel();
+        controller = activity.getController();
 
          someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -88,17 +93,13 @@ public class ListFragment extends Fragment implements FrigoObserver {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        model = new FrigoModel();
-        controller = new Controller(model);
-        currentPosition = 0;
-
-
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        currentPositionViewModel = new ViewModelProvider(requireActivity()).get(CurrentPositionViewModel.class);
 
         model.addObs(this);
         model.loadFrigo(UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
@@ -112,9 +113,8 @@ public class ListFragment extends Fragment implements FrigoObserver {
 
         frigoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
-                productListAdapter.refresh(model,postion);
-                currentPosition = postion;
+            public void onItemSelected(AdapterView<?> parent, View v, int position, long arg3) {
+                currentPositionViewModel.setCurrentPosition(position);
             }
 
             @Override
@@ -196,8 +196,7 @@ public class ListFragment extends Fragment implements FrigoObserver {
 
             String dateString = date.getText().toString();
             dateString = dateString.replace("/","-");
-            dateString = new StringBuilder(dateString).reverse().toString();
-            dateString = new DateCalculator().calculateDaysRemaining(dateString);
+            dateString = new DateCalculator().calculateDaysRemaining(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
             ManuallyProduct manuallyProduct = new ManuallyProduct("",name.getText().toString(),dateString,Integer.parseInt(quantity.getSelectedItem().toString()));
 
@@ -208,20 +207,27 @@ public class ListFragment extends Fragment implements FrigoObserver {
     }
 
     @Override
-    public void update(List<Frigo> frigos) {
+    public void update(FrigoModel frigoModel) {
         frigoSpinner = getView().findViewById(R.id.frigoSpinner);
 
         if (!modelCreated) {
             System.out.println("load data");
-            adapter = new FrigoAdapter(requireContext(),frigos);
-            productListAdapter = new ProductListAdapter(requireContext(),frigos.get(0).getProducts());
+            adapter = new FrigoAdapter(requireContext(),frigoModel.getFrigos());
+            productListAdapter = new ProductListAdapter(requireContext(),frigoModel.getFrigos().get(0).getProducts());
+
+            currentPositionViewModel.getCurrentPosition().observe(getViewLifecycleOwner(), position ->{
+                System.out.println(position);
+                productListAdapter.refresh(model,position,false);
+                frigoSpinner.setSelection(position);
+            });
+
             frigoSpinner.setAdapter(adapter);
             productListView.setAdapter(productListAdapter);
             modelCreated = true;
         }
         else {
             adapter.refresh(model);
-            productListAdapter.refresh(model,currentPosition);
+            productListAdapter.refresh(model,currentPositionViewModel.getCurrentPosition().getValue(),false);
         }
     }
 
