@@ -92,16 +92,15 @@
     <EditText
         android:id="@+id/frigoInput"
         android:layout_width="0dp"
-        android:elevation="15dp"
         android:layout_height="50dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/rounded_edit_text"
+        android:elevation="15dp"
         android:inputType="text"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:drawableStart="@drawable/ic_kitchen_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guide_text_frigo"
         app:layout_constraintWidth_percent="0.7" />
@@ -137,6 +136,17 @@
         app:layout_constraintHorizontal_bias="0.357"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.4" />
+
+    <ImageButton
+        android:id="@+id/useLocationFirstFrigoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_baseline_my_location_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

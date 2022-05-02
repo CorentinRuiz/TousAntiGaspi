@@ -28,7 +28,8 @@
     <string name="register">S\'inscrire</string>
     <string name="registration">Inscription</string>
     <string name="days">jours</string>
-    <string name="camera_permission_needed">Vous avez besoin de l\'autorisation de la caméra pour utiliser cette fonctionnalité !</string>
+    <string name="camera_permission_needed">Vous avez besoin de l\'autorisation de la caméra pour utiliser cette fonctionnalité  !</string>
+    <string name="location_permission_refused">Vous avez besoin d\'autoriser l\'utilisation de la localisation pour récupérer votre position !</string>
     <string name="error">Une erreur s\'est produite. Veuillez essayer plus tard…</string>
     <string name="reset">Réinitialiser</string>
     <string name="shop_online">Achetez en ligne</string>

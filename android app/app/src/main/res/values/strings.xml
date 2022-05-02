@@ -52,4 +52,5 @@
     <string name="passwords_not_same">Passwords are not the same</string>
     <string name="unavailable">Unavailable</string>
     <string name="you_wont_waste">I hope you won\'t waste it!</string>
+    <string name="location_permission_refused">You need to authorize the use of the localization to recover your position!</string>
 </resources>
