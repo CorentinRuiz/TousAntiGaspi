@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
+import android.view.PointerIcon;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -119,6 +121,15 @@ public class MainFragment extends Fragment implements FrigoObserver {
             currentPositionViewModel.getCurrentPosition().observe(getViewLifecycleOwner(), position ->{
                 productListAdapter.refresh(frigoModel,position,true);
                 frigoSpinner.setSelection(position);
+
+                List<Product> currentPastProduct = model.getCurrentPastDlcProduct().get(model.getFrigos().get(position));
+
+                if(currentPastProduct != null && currentPastProduct.isEmpty()){
+                   TextView tv = getView().findViewById(R.id.expireSoon);
+                   tv.setTextColor(getResources().getColor(R.color.main_grey_text_color));
+                   tv.setText(getResources().getString(R.string.no_product_expires_soon));
+                    getView().findViewById(R.id.expireSoonBar).setBackground(ContextCompat.getDrawable(requireContext(), R.color.main_grey_text_color));
+                }
             });
 
             modelCreated = true;

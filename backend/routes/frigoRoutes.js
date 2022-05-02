@@ -6,6 +6,6 @@ const frigoController = require('../controllers/frigoController.js');
 router.post('/get', frigoController.getFrigo);
 router.post('/create', frigoController.createFrigo);
 router.put('/edit',frigoController.editFrigo);
-router.delete('/delete',frigoController.deleteFrigo);
+router.post('/delete',frigoController.deleteFrigo);
 
 module.exports = router;

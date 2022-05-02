@@ -16,6 +16,15 @@
         android:layout_marginTop="60dp"
         android:layout_marginStart="30dp"
         android:textStyle="bold" />
+
+    <View
+        android:layout_width="130dp"
+        android:layout_marginTop="100dp"
+        android:layout_height="2dp"
+        android:background="@color/main_grey_text_color"
+        android:layout_marginStart="30dp"
+        android:layout_gravity="top" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,6 +100,8 @@
             android:src="@drawable/ic_icon_feather_plus"
             app:borderWidth="0dp"
             app:tint="@color/white" />
+
+
 
     </FrameLayout>
 

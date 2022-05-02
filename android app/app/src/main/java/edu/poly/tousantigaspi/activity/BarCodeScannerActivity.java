@@ -2,12 +2,16 @@ package edu.poly.tousantigaspi.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,22 +57,6 @@ public class BarCodeScannerActivity extends AppCompatActivity {
         setupPermissions();
         codeScanner();
 
-        ImageButton button = findViewById(R.id.arrowButton);
-        button.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
-
-        button.setOnClickListener(click ->{
-            try {
-                CodeScannerProduct product = new CodeScannerProduct("","name","Test",0);
-                getIntent().putExtra("productScanner",product);
-                setResult(Activity.RESULT_OK,getIntent());
-                finish();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-
-
-        });
     }
 
     private void codeScanner(){
@@ -164,22 +152,7 @@ public class BarCodeScannerActivity extends AppCompatActivity {
                     BarCodeScannerActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            TextView text = (TextView) findViewById(R.id.productName);
-                            text.setText(name);
-
-
-                            ImageButton button = findViewById(R.id.arrowButton);
-                            button.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
-                            button.setOnClickListener(click ->{
-                                try {
-                                    Product product = new ProductFactory().build("",ProductFactory.CODE_SCANNER,0,"",name);
-
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-
-                                finish();
-                            });
+                            openProductPopUp(name,findViewById(R.id.PorductContainer));
                         }
                     });
 
@@ -188,5 +161,32 @@ public class BarCodeScannerActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void openProductPopUp(String name, View view){
+        LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewPopupWindow = layoutInflater.inflate(R.layout.popup_scanner_decode,null);
+        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,240,true);
+
+        popupWindow.setAnimationStyle(R.style.popup_window_animation);
+        popupWindow.setElevation(5);
+        popupWindow.showAtLocation(view, Gravity.BOTTOM,0,200);
+
+        TextView text = (TextView) viewPopupWindow.findViewById(R.id.productName);
+        text.setText(name);
+
+        ImageButton button = viewPopupWindow.findViewById(R.id.arrowButton);
+
+       button.setOnClickListener(click ->{
+            try {
+                CodeScannerProduct product = new CodeScannerProduct("",name,"",1);
+                getIntent().putExtra("productScanner",product);
+                setResult(Activity.RESULT_OK,getIntent());
+                finish();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+
     }
 }

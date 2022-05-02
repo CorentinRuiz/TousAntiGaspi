@@ -33,13 +33,15 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private BottomNavigationView mBottomNavigation;
     private ViewPagerAdapter pagerAdapter;
     private Controller controller;
-    private FrigoModel frigoModel = new FrigoModel();
+    private FrigoModel frigoModel;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        controller = new Controller(frigoModel);
+        frigoModel = new FrigoModel();
+        controller = new Controller(frigoModel,this);
+        frigoModel.setController(controller);
 
         mBottomNavigation = findViewById(R.id.BottomNavBar);
         mBottomNavigation.setOnItemSelectedListener(this);

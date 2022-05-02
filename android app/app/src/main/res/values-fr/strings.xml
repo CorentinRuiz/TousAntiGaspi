@@ -32,9 +32,11 @@
     <string name="location_permission_refused">Vous avez besoin d\'autoriser l\'utilisation de la localisation pour récupérer votre position !</string>
     <string name="error">Une erreur s\'est produite. Veuillez essayer plus tard…</string>
     <string name="reset">Réinitialiser</string>
+    <string name="deleteFrigo">Supprimer le frigo</string>
     <string name="shop_online">Achetez en ligne</string>
     <string name="all_input_required">Toutes les entrées sont requises</string>
     <string name="passwords_not_same">Les mots de passe ne sont pas identiques</string>
     <string name="unavailable">Indisponible</string>
     <string name="you_wont_waste">J\'espère que vous n\'allez pas gaspiller !</string>
+    <string name="date_format">Jour/Mois/Années</string>
 </resources>

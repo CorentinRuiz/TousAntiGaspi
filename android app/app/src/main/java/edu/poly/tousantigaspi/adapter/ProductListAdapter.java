@@ -82,6 +82,7 @@ public class ProductListAdapter extends BaseAdapter {
         if(pastDlc){
             this.products = model.getCurrentPastDlcProduct().get(model.getFrigos().get(position).getName());
         }else{
+            System.out.println(position);
             this.products = model.getFrigo(position).getProducts();
         }
 

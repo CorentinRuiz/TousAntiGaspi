@@ -47,10 +47,12 @@
     <string name="camera_permission_needed">You need the camera permission to use this feature!</string>
     <string name="error">An error occurred. Please try it later…</string>
     <string name="reset">Reset</string>
+    <string name="deleteFrigo">Delete Fridge</string>
     <string name="shop_online">Shop online</string>
     <string name="all_input_required">All input are required</string>
     <string name="passwords_not_same">Passwords are not the same</string>
     <string name="unavailable">Unavailable</string>
     <string name="you_wont_waste">I hope you won\'t waste it!</string>
     <string name="location_permission_refused">You need to authorize the use of the localization to recover your position!</string>
+    <string name="date_format">Days/Month/Years</string>
 </resources>

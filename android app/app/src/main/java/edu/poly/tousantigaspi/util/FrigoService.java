@@ -4,10 +4,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import edu.poly.tousantigaspi.util.request.CreateFrigoRequest;
+import edu.poly.tousantigaspi.util.request.DeleteFrigoRequest;
 import edu.poly.tousantigaspi.util.request.EditFrigoRequest;
 import edu.poly.tousantigaspi.util.request.GetRequestWithUsername;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
@@ -21,4 +23,7 @@ public interface FrigoService {
 
     @PUT("/frigo/edit")
     Call<String> editFrigo(@Body EditFrigoRequest username);
+
+    @POST("/frigo/delete")
+    Call<String> deleteFrigo(@Body DeleteFrigoRequest request);
 }

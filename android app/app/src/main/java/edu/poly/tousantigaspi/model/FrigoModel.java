@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.stream.Collectors;
 
+import edu.poly.tousantigaspi.controller.Controller;
 import edu.poly.tousantigaspi.fragment.ListFragment;
 import edu.poly.tousantigaspi.fragment.MainFragment;
 import edu.poly.tousantigaspi.object.Frigo;
@@ -29,6 +30,7 @@ public class FrigoModel extends FrigoObservable {
     private FrigoRepository repository;
     private ArrayList<Frigo> frigos;
     private HashMap<String,List<Product>> currentPastDlcProduct;
+    private Controller controller;
 
     public FrigoModel() {
         repository = FrigoRepository.getInstance();
@@ -58,6 +60,7 @@ public class FrigoModel extends FrigoObservable {
             List<Product> products = frigo.getProducts().stream().filter(Product::isPast).collect(Collectors.toList());
             currentPastDlcProduct.put(frigo.getName(),products);
         }
+        controller.modelHasChanged();
     }
 
     public void setFrigos(ArrayList<Frigo> frigos) {
@@ -85,4 +88,7 @@ public class FrigoModel extends FrigoObservable {
         this.frigos.remove(this.frigos.stream().filter(x -> x.getId().equals(id)).findFirst().get());
     }
 
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
 }

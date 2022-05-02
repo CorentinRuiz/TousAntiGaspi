@@ -33,6 +33,7 @@
 
     <EditText
         android:id="@+id/dateTv"
+        android:hint="@string/date_format"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:elevation="15dp"

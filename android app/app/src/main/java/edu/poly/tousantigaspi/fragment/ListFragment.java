@@ -155,7 +155,7 @@ public class ListFragment extends Fragment implements FrigoObserver {
     public void openUpdateFrigoPopUp(View view){
         LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewPopupWindow = layoutInflater.inflate(R.layout.pop_up_modify_fridge,null);
-        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,600,true);
+        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,800,true);
 
         popupWindow.setAnimationStyle(R.style.popup_window_animation);
         popupWindow.setElevation(20);
@@ -168,6 +168,12 @@ public class ListFragment extends Fragment implements FrigoObserver {
 
         viewPopupWindow.findViewById(R.id.submitEditFrigo).setOnClickListener(click ->{
             controller.editFrigo(input.getText().toString(),frigo.getId());
+            popupWindow.dismiss();
+        });
+
+        viewPopupWindow.findViewById(R.id.deleteFrigo).setOnClickListener(click ->{
+            frigoSpinner.setSelection(0);
+            controller.deleteFrigo(frigo.getId());
             popupWindow.dismiss();
         });
     }
@@ -188,6 +194,7 @@ public class ListFragment extends Fragment implements FrigoObserver {
         EditText name = viewPopupWindow.findViewById(R.id.productNameTv);
         if(product != null){
             name.setText(product.getName());
+            spinner.setSelection(product.getQuantity());
         }
 
         viewPopupWindow.findViewById(R.id.submitProduct).setOnClickListener(click -> {
