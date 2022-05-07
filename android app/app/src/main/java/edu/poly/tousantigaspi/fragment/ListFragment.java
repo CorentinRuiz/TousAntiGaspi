@@ -124,7 +124,7 @@ public class ListFragment extends Fragment implements FrigoObserver {
         });
 
         view.findViewById(R.id.frigoSettings).setOnClickListener(click ->{
-            openUpdateFrigoPopUp(view);
+            openSettingsPopUp(view);
         });
 
 
@@ -225,6 +225,7 @@ public class ListFragment extends Fragment implements FrigoObserver {
             currentPositionViewModel.getCurrentPosition().observe(getViewLifecycleOwner(), position ->{
                 System.out.println(position);
                 productListAdapter.refresh(model,position,false);
+                controller.modelHasChanged(model.getFrigo(position));
                 frigoSpinner.setSelection(position);
             });
 
@@ -236,6 +237,43 @@ public class ListFragment extends Fragment implements FrigoObserver {
             adapter.refresh(model);
             productListAdapter.refresh(model,currentPositionViewModel.getCurrentPosition().getValue(),false);
         }
+    }
+
+    public void openSettingsPopUp(View view){
+        LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewPopupWindow = layoutInflater.inflate(R.layout.popup_settings_product,null);
+        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,670,240,true);
+
+        popupWindow.setAnimationStyle(R.style.popup_window_animation);
+        popupWindow.setElevation(20);
+        popupWindow.showAtLocation(view, Gravity.TOP,130,300);
+
+        viewPopupWindow.findViewById(R.id.EditFrigoButton).setOnClickListener(click -> {
+            openUpdateFrigoPopUp(view);
+            popupWindow.dismiss();
+        });
+
+        viewPopupWindow.findViewById(R.id.AddFrigoButton).setOnClickListener(click -> {
+            openAddFrigoPopUp(view);
+            popupWindow.dismiss();
+        });
+    }
+
+    public void openAddFrigoPopUp(View view){
+        LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewPopupWindow = layoutInflater.inflate(R.layout.pop_up_add_fridge,null);
+        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,800,true);
+
+        popupWindow.setAnimationStyle(R.style.popup_window_animation);
+        popupWindow.setElevation(20);
+        EditText input = viewPopupWindow.findViewById(R.id.frigoAddInput);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, -150);
+
+        viewPopupWindow.findViewById(R.id.submitAddFrigo).setOnClickListener(click ->{
+            controller.addFrigo(input.getText().toString());
+            popupWindow.dismiss();
+        });
     }
 
 }

@@ -23,6 +23,7 @@ import java.util.List;
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.activity.MainActivity;
 import edu.poly.tousantigaspi.adapter.ProductListAdapter;
+import edu.poly.tousantigaspi.controller.Controller;
 import edu.poly.tousantigaspi.controller.NameController;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.model.NameModel;
@@ -40,6 +41,7 @@ import edu.poly.tousantigaspi.viewmodels.CurrentPositionViewModel;
 public class MainFragment extends Fragment implements FrigoObserver {
 
     private static NameController nameController;
+    private Controller controller;
     private ListView productListView;
     private FrigoAdapter adapter;
     CurrentPositionViewModel currentPositionViewModel;
@@ -71,6 +73,10 @@ public class MainFragment extends Fragment implements FrigoObserver {
 
         nameController = new NameController(this);
         nameController.getName();
+        MainActivity activity = (MainActivity) getActivity();
+
+        model = activity.getFrigoModel();
+        controller = activity.getController();
 
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -121,15 +127,16 @@ public class MainFragment extends Fragment implements FrigoObserver {
             currentPositionViewModel.getCurrentPosition().observe(getViewLifecycleOwner(), position ->{
                 productListAdapter.refresh(frigoModel,position,true);
                 frigoSpinner.setSelection(position);
+                controller.modelHasChanged(model.getFrigos().get(position));
 
-                List<Product> currentPastProduct = model.getCurrentPastDlcProduct().get(model.getFrigos().get(position));
+               /* List<Product> currentPastProduct = model.getCurrentPastDlcProduct().get(model.getFrigos().get(position));
 
                 if(currentPastProduct != null && currentPastProduct.isEmpty()){
                    TextView tv = getView().findViewById(R.id.expireSoon);
                    tv.setTextColor(getResources().getColor(R.color.main_grey_text_color));
                    tv.setText(getResources().getString(R.string.no_product_expires_soon));
                     getView().findViewById(R.id.expireSoonBar).setBackground(ContextCompat.getDrawable(requireContext(), R.color.main_grey_text_color));
-                }
+                }*/
             });
 
             modelCreated = true;

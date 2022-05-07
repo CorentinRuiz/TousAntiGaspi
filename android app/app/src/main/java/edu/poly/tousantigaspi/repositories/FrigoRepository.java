@@ -15,6 +15,7 @@ import edu.poly.tousantigaspi.util.factory.AbstractFactory;
 import edu.poly.tousantigaspi.util.factory.FactoryProvider;
 import edu.poly.tousantigaspi.util.factory.ProductFactory;
 import edu.poly.tousantigaspi.util.request.AddProductRequest;
+import edu.poly.tousantigaspi.util.request.CreateFrigoRequest;
 import edu.poly.tousantigaspi.util.request.DeleteFrigoRequest;
 import edu.poly.tousantigaspi.util.request.EditFrigoRequest;
 import edu.poly.tousantigaspi.util.request.GetProductsRequest;
@@ -173,6 +174,32 @@ public class FrigoRepository {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     System.out.println("Frigo deleted");
+                } else {
+                    System.out.println(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
+    public void addFrigo(String frigoName, String username,FrigoModel model) {
+        CreateFrigoRequest createFrigoRequest = new CreateFrigoRequest();
+        createFrigoRequest.setName(frigoName);
+        createFrigoRequest.setUsername(username);
+
+
+        Call<String> createFrigoResponseCall = ApiClient.getFrigoService().createFrigo(createFrigoRequest);
+
+        createFrigoResponseCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Frigo is created");
+                    model.loadFrigo(username);
                 } else {
                     System.out.println(response.message());
                 }

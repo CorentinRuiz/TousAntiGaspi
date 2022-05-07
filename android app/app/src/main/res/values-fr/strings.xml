@@ -19,8 +19,11 @@
     <string name="change_fridge_name">Modifier le nom du frigo</string>
     <string name="settings">Paramètres</string>
     <string name="my_fridge">Mon Frigo</string>
+    <string name="add_frigo">Ajouter un Frigo</string>
+    <string name="new_fridge_name">Donner un nom à votre nouveau frigo</string>
     <string name="no_product_expires_soon">Aucun produit ne périme bientôt</string>
     <string name="your_products">Vos produits</string>
+    <string name="edit_frigo">Editer le frigo</string>
     <string name="quantity">Quantité</string>
     <string name="hello">Bonjour</string>
     <string name="email">Email</string>

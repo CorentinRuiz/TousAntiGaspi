@@ -7,13 +7,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.activity.MainActivity;
 import edu.poly.tousantigaspi.model.FrigoModel;
+import edu.poly.tousantigaspi.object.Frigo;
 import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.repositories.FrigoRepository;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
+import edu.poly.tousantigaspi.viewmodels.CurrentPositionViewModel;
 
 public class Controller {
 
@@ -32,6 +35,11 @@ public class Controller {
         repository.editFrigo(newName,id,model);
     }
 
+    public void addFrigo(String frigoName){
+        model.addFrigo(frigoName);
+        repository.addFrigo(frigoName,UtilsSharedPreference.getStringFromPref(context,"username"),model);
+    }
+
     public void addProduct(String frigoId, Product product){
         model.addProduct(frigoId,product);
         repository.addProduct(product,frigoId,model);
@@ -47,13 +55,18 @@ public class Controller {
         }
     }
 
-    public void modelHasChanged(){
-        if(model.getCurrentPastDlcProduct().size() > 0){
-            TextView tv = ((MainActivity) context).findViewById(R.id.expireSoon);
+    public void modelHasChanged(Frigo frigo){
+        TextView tv = ((MainActivity) context).findViewById(R.id.expireSoon);
+        View bar = ((MainActivity) context).findViewById(R.id.expireSoonBar);
 
-            View bar = ((MainActivity) context).findViewById(R.id.expireSoonBar);
+        if(tv != null){
+            if(model.getCurrentPastDlcProduct().get(frigo.getName()).isEmpty()){
+                tv.setText("No product expired soon");
+                tv.setTextColor(context.getResources().getColor(R.color.main_grey_text_color));
+                bar.setBackground(ContextCompat.getDrawable(context, R.color.main_grey_text_color));
+            }
+            else{
 
-            if(tv != null){
                 tv.setText("Product expired or expire soon  ⚠");
                 tv.setTextColor(context.getResources().getColor(R.color.red));
                 bar.setBackground(ContextCompat.getDrawable(context, R.color.red));

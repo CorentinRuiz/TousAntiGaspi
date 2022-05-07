@@ -42,8 +42,9 @@ public class FrigoModel extends FrigoObservable {
         return frigos;
     }
 
-    public void addFrigo(Frigo frigo){
-        frigos.add(frigo);
+    public void addFrigo(String frigoName){
+        frigos.add(new Frigo("", frigoName,new ArrayList<>()));
+        notifyObs(this);
     }
 
     public void editFrigo(String id,String newName){
@@ -60,7 +61,7 @@ public class FrigoModel extends FrigoObservable {
             List<Product> products = frigo.getProducts().stream().filter(Product::isPast).collect(Collectors.toList());
             currentPastDlcProduct.put(frigo.getName(),products);
         }
-        controller.modelHasChanged();
+        controller.modelHasChanged(frigos.get(0));
     }
 
     public void setFrigos(ArrayList<Frigo> frigos) {
