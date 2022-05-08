@@ -1,8 +1,10 @@
 package edu.poly.tousantigaspi.fragment;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -11,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -127,7 +130,6 @@ public class ListFragment extends Fragment implements FrigoObserver {
             openSettingsPopUp(view);
         });
 
-
     }
 
     public void openPopUp(View view){
@@ -203,11 +205,12 @@ public class ListFragment extends Fragment implements FrigoObserver {
 
             String dateString = date.getText().toString();
             dateString = dateString.replace("/","-");
+            String dateFormatForApi = dateString;
             dateString = new DateCalculator().calculateDaysRemaining(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
             ManuallyProduct manuallyProduct = new ManuallyProduct("",name.getText().toString(),dateString,Integer.parseInt(quantity.getSelectedItem().toString()));
 
-            controller.addProduct(selected.getId(), manuallyProduct);
+            controller.addProduct(selected.getId(), manuallyProduct,dateFormatForApi);
             popupWindow.dismiss();
         });
 
@@ -223,7 +226,6 @@ public class ListFragment extends Fragment implements FrigoObserver {
             productListAdapter = new ProductListAdapter(requireContext(),frigoModel.getFrigos().get(0).getProducts());
 
             currentPositionViewModel.getCurrentPosition().observe(getViewLifecycleOwner(), position ->{
-                System.out.println(position);
                 productListAdapter.refresh(model,position,false);
                 controller.modelHasChanged(model.getFrigo(position));
                 frigoSpinner.setSelection(position);

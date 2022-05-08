@@ -40,9 +40,9 @@ public class Controller {
         repository.addFrigo(frigoName,UtilsSharedPreference.getStringFromPref(context,"username"),model);
     }
 
-    public void addProduct(String frigoId, Product product){
+    public void addProduct(String frigoId, Product product, String date){
         model.addProduct(frigoId,product);
-        repository.addProduct(product,frigoId,model);
+        repository.addProduct(product,frigoId,model,date);
     }
 
     public void deleteFrigo(String id){

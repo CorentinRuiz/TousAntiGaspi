@@ -135,12 +135,12 @@ public class FrigoRepository {
         }
     }
 
-    public void addProduct(Product product, String id, FrigoModel model) {
+    public void addProduct(Product product, String id, FrigoModel model,String date) {
 
         AddProductRequest getProductsRequest = new AddProductRequest();
         getProductsRequest.setId(id);
         getProductsRequest.setName(product.getName());
-        getProductsRequest.setDate(product.getDateRemaining());
+        getProductsRequest.setDate(date);
         getProductsRequest.setQuantity(product.getQuantity());
 
         Call<String> getProductResponseCall = ApiClient.getProductService().addProduct(getProductsRequest);

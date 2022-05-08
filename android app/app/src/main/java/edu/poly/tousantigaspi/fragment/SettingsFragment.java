@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -24,64 +26,40 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import edu.poly.tousantigaspi.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SettingsFragment extends Fragment {
     private Button resetBtn;
     private Button shopOnlineBtn;
     private ActivityResultLauncher<Intent> shopOnlineResult;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    Spinner language;
 
     private NotificationManagerCompat notificationManagerCompat;
     private static final String CHANNEL_ID = "channelDefault";
     private static int NOTIF_ID = 123;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     public SettingsFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SettingsFragment newInstance(String param1, String param2) {
         SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
         this.createNotificationChannel();
         this.notificationManagerCompat = NotificationManagerCompat.from(this.getContext());
     }
@@ -91,6 +69,24 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         resetBtn = view.findViewById(R.id.reset);
         shopOnlineBtn = view.findViewById(R.id.shop_online);
+        language = view.findViewById(R.id.languageTv);
+
+        language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Locale locale = new Locale(language.getSelectedItem().toString());
+                Locale.setDefault(locale);
+                Resources resources = requireActivity().getResources();
+                Configuration config = resources.getConfiguration();
+                config.setLocale(locale);
+                resources.updateConfiguration(config, resources.getDisplayMetrics());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         resetBtn.setOnClickListener(view1 -> Toast.makeText(view.getContext(), getString(R.string.unavailable), Toast.LENGTH_LONG).show());
 

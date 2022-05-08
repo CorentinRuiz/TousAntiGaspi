@@ -1,9 +1,17 @@
 package edu.poly.tousantigaspi.fragment;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +27,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.activity.MainActivity;
@@ -51,6 +60,9 @@ public class MainFragment extends Fragment implements FrigoObserver {
     private ProductListAdapter productListAdapter;
     private boolean modelCreated = false;
     FrigoModel model;
+    private NotificationManagerCompat notificationManagerCompat;
+    private static final String CHANNEL_ID = "channelDefault";
+    private static int NOTIF_ID = 123;
 
 
     public MainFragment() {
@@ -64,6 +76,8 @@ public class MainFragment extends Fragment implements FrigoObserver {
 
         MainActivity activity = (MainActivity) getActivity();
         model = activity.getFrigoModel();
+        this.createNotificationChannel();
+        this.notificationManagerCompat = NotificationManagerCompat.from(this.getContext());
     }
 
 
@@ -124,26 +138,59 @@ public class MainFragment extends Fragment implements FrigoObserver {
             productListAdapter = new ProductListAdapter(requireContext(),frigoModel.getCurrentPastDlcProduct().get(frigoModel.getFrigos().get(currentPositionViewModel.getCurrentPosition().getValue()).getName()));
             productListView.setAdapter(productListAdapter);
 
+            List<Product> pastProducts = frigoModel.getFrigos().get(currentPositionViewModel.getCurrentPosition().getValue()).getProducts().stream().filter(product -> product.isPast()).collect(Collectors.toList());
+
             currentPositionViewModel.getCurrentPosition().observe(getViewLifecycleOwner(), position ->{
                 productListAdapter.refresh(frigoModel,position,true);
                 frigoSpinner.setSelection(position);
                 controller.modelHasChanged(model.getFrigos().get(position));
 
-               /* List<Product> currentPastProduct = model.getCurrentPastDlcProduct().get(model.getFrigos().get(position));
+                List<Product> pastProductsRefresh = frigoModel.getFrigos().get(position).getProducts().stream().filter(product -> product.isPast()).collect(Collectors.toList());
 
-                if(currentPastProduct != null && currentPastProduct.isEmpty()){
-                   TextView tv = getView().findViewById(R.id.expireSoon);
-                   tv.setTextColor(getResources().getColor(R.color.main_grey_text_color));
-                   tv.setText(getResources().getString(R.string.no_product_expires_soon));
-                    getView().findViewById(R.id.expireSoonBar).setBackground(ContextCompat.getDrawable(requireContext(), R.color.main_grey_text_color));
-                }*/
+                if(!pastProductsRefresh.isEmpty()){
+                    sendNotifications(pastProductsRefresh);
+                }
             });
+
+            if(!pastProducts.isEmpty()){
+                sendNotifications(pastProducts);
+            }
 
             modelCreated = true;
         }
         else {
             adapter.refresh(frigoModel);
             productListAdapter.refresh(frigoModel,0,true);
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is channel 1");
+
+            Context context = requireContext();
+            NotificationManager manager = context.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+        }
+    }
+
+    private void sendNotifications(List<Product> products){
+        for(Product product: products){
+            Context context = requireContext();
+
+            Notification notification = new NotificationCompat.Builder(context, "channelDefault")
+                    .setSmallIcon(R.drawable.logo)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.burger))
+                    .setContentTitle("Produit bientôt périmé")
+                    .setContentText("Attention, votre "+ product.getName() + " se périmé dans "+ product.getDateRemaining() + " !")
+                    .build();
+
+            notificationManagerCompat.notify(++NOTIF_ID, notification);
         }
     }
 }
