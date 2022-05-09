@@ -14,6 +14,9 @@ public class Frigo {
         this.products = products;
     }
 
+    public Frigo() {
+    }
+
     public String getName() {
         return name;
     }

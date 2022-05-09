@@ -13,14 +13,14 @@ public class ProductFactory implements AbstractFactory<Product> {
     public static final int CODE_SCANNER = 1;
 
     @Override
-    public Product build(String id, int type, Integer quantity, String date, String name) {
+    public Product build(int type) {
         switch (type) {
             case MANUALLY:
-                return new ManuallyProduct(id, name, date, quantity);
+                return new ManuallyProduct();
             case CODE_SCANNER:
-                return new CodeScannerProduct(id, name, LocalDate.now().toString(), 1);
+                return new CodeScannerProduct(LocalDate.now().toString(), 1);
             default:
-                return new ManuallyProduct(id, name, date, quantity);
+                return new ManuallyProduct();
         }
     }
 }

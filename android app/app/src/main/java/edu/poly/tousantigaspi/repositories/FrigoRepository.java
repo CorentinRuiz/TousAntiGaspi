@@ -106,16 +106,18 @@ public class FrigoRepository {
                 @Override
                 public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                     if (response.isSuccessful()) {
-                        AbstractFactory<Product> factory = FactoryProvider.getFactory(0);
+                        AbstractFactory<Product> factory = FactoryProvider.getFactory(FactoryProvider.PRODUCT);
                         JsonArray product_array = response.body();
 
                         ArrayList<Product> products = new ArrayList<>();
-                        product_array.forEach(x -> products.add(factory.build(
-                                x.getAsJsonObject().get("_id").toString().replace("\"", ""),
-                                ProductFactory.MANUALLY,
-                                Integer.parseInt(x.getAsJsonObject().get("quantity").toString().replace("\"", "")),
-                                new DateCalculator().calculateDaysRemaining(x.getAsJsonObject().get("date").toString().replace("\"", "").split("T")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                                x.getAsJsonObject().get("name").toString().replace("\"", ""))));
+                        product_array.forEach(x -> {
+                            Product newProduct = factory.build(ProductFactory.MANUALLY);
+                            newProduct.setId(x.getAsJsonObject().get("_id").toString().replace("\"", ""));
+                            newProduct.setQuantity(Integer.parseInt(x.getAsJsonObject().get("quantity").toString().replace("\"", "")));
+                            newProduct.setDateRemaining(new DateCalculator().calculateDaysRemaining(x.getAsJsonObject().get("date").toString().replace("\"", "").split("T")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                            newProduct.setName(x.getAsJsonObject().get("name").toString().replace("\"", ""));
+                            products.add(newProduct);
+                        });
 
 
                         frigo.setProducts(products);

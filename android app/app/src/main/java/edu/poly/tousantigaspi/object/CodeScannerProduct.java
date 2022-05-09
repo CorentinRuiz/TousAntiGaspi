@@ -11,6 +11,12 @@ public class CodeScannerProduct extends Product implements Parcelable {
         super(id,name, dateRemaining,quantity);
     }
 
+    public CodeScannerProduct(String dateRemaining, Integer quantity) {
+        super();
+        this.setDateRemaining(dateRemaining);
+        this.setQuantity(quantity);
+    }
+
     @Override
     public int describeContents() {
         return 0;

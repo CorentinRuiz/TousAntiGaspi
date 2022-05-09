@@ -19,6 +19,9 @@ import edu.poly.tousantigaspi.object.ManuallyProduct;
 import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.repositories.FrigoRepository;
 import edu.poly.tousantigaspi.util.ApiClient;
+import edu.poly.tousantigaspi.util.factory.AbstractFactory;
+import edu.poly.tousantigaspi.util.factory.FactoryProvider;
+import edu.poly.tousantigaspi.util.factory.FrigoFactory;
 import edu.poly.tousantigaspi.util.observer.FrigoObservable;
 import edu.poly.tousantigaspi.util.request.GetRequestWithUsername;
 import retrofit2.Call;
@@ -43,7 +46,12 @@ public class FrigoModel extends FrigoObservable {
     }
 
     public void addFrigo(String frigoName){
-        frigos.add(new Frigo("", frigoName,new ArrayList<>()));
+        AbstractFactory<Frigo> factory = FactoryProvider.getFactory(FactoryProvider.FRIGO);
+        Frigo newFrigo = factory.build(FrigoFactory.BASIC);
+        newFrigo.setId("");
+        newFrigo.setName(frigoName);
+        newFrigo.setProducts(new ArrayList<>());
+        frigos.add(newFrigo);
         notifyObs(this);
     }
 

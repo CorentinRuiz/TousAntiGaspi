@@ -45,6 +45,9 @@ import edu.poly.tousantigaspi.object.ManuallyProduct;
 import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.util.DateCalculator;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
+import edu.poly.tousantigaspi.util.factory.AbstractFactory;
+import edu.poly.tousantigaspi.util.factory.FactoryProvider;
+import edu.poly.tousantigaspi.util.factory.ProductFactory;
 import edu.poly.tousantigaspi.util.observer.FrigoObserver;
 import edu.poly.tousantigaspi.viewmodels.CurrentPositionViewModel;
 
@@ -208,9 +211,14 @@ public class ListFragment extends Fragment implements FrigoObserver {
             String dateFormatForApi = dateString;
             dateString = new DateCalculator().calculateDaysRemaining(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
-            ManuallyProduct manuallyProduct = new ManuallyProduct("",name.getText().toString(),dateString,Integer.parseInt(quantity.getSelectedItem().toString()));
+            AbstractFactory<Product> factory = FactoryProvider.getFactory(FactoryProvider.PRODUCT);
+            Product newProduct = factory.build(ProductFactory.MANUALLY);
+            newProduct.setId("");
+            newProduct.setName(name.getText().toString());
+            newProduct.setDateRemaining(dateString);
+            newProduct.setQuantity(Integer.parseInt(quantity.getSelectedItem().toString()));
 
-            controller.addProduct(selected.getId(), manuallyProduct,dateFormatForApi);
+            controller.addProduct(selected.getId(), newProduct, dateFormatForApi);
             popupWindow.dismiss();
         });
 
