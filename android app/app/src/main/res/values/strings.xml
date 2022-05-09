@@ -64,4 +64,5 @@
     <string name="you_wont_waste">I hope you won\'t waste it!</string>
     <string name="location_permission_refused">You need to authorize the use of the localization to recover your position!</string>
     <string name="date_format">Days/Month/Years</string>
+    <string name="gps_not_enabled">You need to enable the GPS to use your location</string>
 </resources>

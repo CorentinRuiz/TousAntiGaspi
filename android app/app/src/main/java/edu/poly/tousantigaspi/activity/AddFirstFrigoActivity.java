@@ -78,7 +78,7 @@ public class AddFirstFrigoActivity extends AppCompatActivity implements Location
         if(requestCode == LOCATION_REQUEST_CODE){
             if (grantResults.length == 0 || (grantResults[0] != PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] != PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(this, getString(R.string.location_permission_refused), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.location_permission_refused), Toast.LENGTH_LONG).show();
             }
             else {
                 requestLocation();
