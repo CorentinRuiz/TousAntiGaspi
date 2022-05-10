@@ -87,11 +87,7 @@ public class AddFirstFrigoActivity extends AppCompatActivity implements Location
     }
 
     public void requestLocation(){
-        try {
-            MyNavigationService.getLocation(this, this);
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        MyNavigationService.getLocation(this, this);
     }
 
     @Override

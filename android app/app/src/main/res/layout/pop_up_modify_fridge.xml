@@ -14,16 +14,29 @@
         android:elevation="15dp"
         android:inputType="text"
         android:maxLength="20"
+        android:layout_marginStart="36dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.386"
         app:layout_constraintWidth_percent="0.7" />
+
+    <ImageButton
+        android:id="@+id/useLocationEditFrigoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="5dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/frigoEditInput"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.386"
+        app:srcCompat="@drawable/ic_baseline_my_location_24" />
 
     <TextView
         android:layout_width="wrap_content"

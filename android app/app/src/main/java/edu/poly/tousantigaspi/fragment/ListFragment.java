@@ -1,22 +1,14 @@
 package edu.poly.tousantigaspi.fragment;
 
+import android.Manifest;
 import android.app.Activity;
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,24 +18,34 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.activity.BarCodeScannerActivity;
 import edu.poly.tousantigaspi.activity.MainActivity;
+import edu.poly.tousantigaspi.adapter.FrigoAdapter;
+import edu.poly.tousantigaspi.adapter.ProductListAdapter;
 import edu.poly.tousantigaspi.controller.Controller;
 import edu.poly.tousantigaspi.model.FrigoModel;
 import edu.poly.tousantigaspi.object.CodeScannerProduct;
 import edu.poly.tousantigaspi.object.Frigo;
-import edu.poly.tousantigaspi.adapter.FrigoAdapter;
-import edu.poly.tousantigaspi.adapter.ProductListAdapter;
-import edu.poly.tousantigaspi.object.ManuallyProduct;
 import edu.poly.tousantigaspi.object.Product;
 import edu.poly.tousantigaspi.util.DateCalculator;
+import edu.poly.tousantigaspi.util.MyNavigationService;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 import edu.poly.tousantigaspi.util.factory.AbstractFactory;
 import edu.poly.tousantigaspi.util.factory.FactoryProvider;
@@ -55,13 +57,17 @@ import edu.poly.tousantigaspi.viewmodels.CurrentPositionViewModel;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment implements FrigoObserver {
+public class ListFragment extends Fragment implements FrigoObserver, LocationListener {
+
+    private static final int LOCATION_REQUEST_CODE = 51; //PASTIS
 
     Spinner frigoSpinner;
     FrigoAdapter adapter;
     ListView productListView;
     Controller controller;
     CurrentPositionViewModel currentPositionViewModel;
+
+    EditText currentEditTextFrigo;
 
     private boolean modelCreated = false;
     ProductListAdapter productListAdapter;
@@ -152,35 +158,9 @@ public class ListFragment extends Fragment implements FrigoObserver {
         viewPopupWindow.findViewById(R.id.AddProductBarCodeButton).setOnClickListener(click -> openBarCodeScanner());
     }
 
-    public void openBarCodeScanner(){
+    public void openBarCodeScanner() {
         Intent openBarCodeScannerActivity = new Intent(requireContext(), BarCodeScannerActivity.class);
         someActivityResultLauncher.launch(openBarCodeScannerActivity);
-    }
-
-    public void openUpdateFrigoPopUp(View view){
-        LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewPopupWindow = layoutInflater.inflate(R.layout.pop_up_modify_fridge,null);
-        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,800,true);
-
-        popupWindow.setAnimationStyle(R.style.popup_window_animation);
-        popupWindow.setElevation(20);
-        EditText input = viewPopupWindow.findViewById(R.id.frigoEditInput);
-
-        Frigo frigo = (Frigo) frigoSpinner.getSelectedItem();
-        input.setText(frigo.getName());
-
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, -150);
-
-        viewPopupWindow.findViewById(R.id.submitEditFrigo).setOnClickListener(click ->{
-            controller.editFrigo(input.getText().toString(),frigo.getId());
-            popupWindow.dismiss();
-        });
-
-        viewPopupWindow.findViewById(R.id.deleteFrigo).setOnClickListener(click ->{
-            frigoSpinner.setSelection(0);
-            controller.deleteFrigo(frigo.getId());
-            popupWindow.dismiss();
-        });
     }
 
     public void openAddProductPopUp(View view, CodeScannerProduct product){
@@ -269,6 +249,48 @@ public class ListFragment extends Fragment implements FrigoObserver {
         });
     }
 
+    public void openUpdateFrigoPopUp(View view){
+        LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewPopupWindow = layoutInflater.inflate(R.layout.pop_up_modify_fridge,null);
+        final PopupWindow popupWindow = new PopupWindow(viewPopupWindow,1000,800,true);
+
+        popupWindow.setAnimationStyle(R.style.popup_window_animation);
+        popupWindow.setElevation(20);
+        EditText input = viewPopupWindow.findViewById(R.id.frigoEditInput);
+
+        Frigo frigo = (Frigo) frigoSpinner.getSelectedItem();
+        input.setText(frigo.getName());
+        this.currentEditTextFrigo = input;
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, -150);
+
+        viewPopupWindow.findViewById(R.id.submitEditFrigo).setOnClickListener(click ->{
+            controller.editFrigo(input.getText().toString(),frigo.getId());
+            popupWindow.dismiss();
+        });
+
+        viewPopupWindow.findViewById(R.id.deleteFrigo).setOnClickListener(click ->{
+            frigoSpinner.setSelection(0);
+            controller.deleteFrigo(frigo.getId());
+            popupWindow.dismiss();
+        });
+
+        viewPopupWindow.findViewById(R.id.useLocationEditFrigoButton).setOnClickListener(click -> {
+            if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED ){
+                ActivityCompat.requestPermissions(this.getActivity(), new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+            }
+            else{
+                requestLocation();
+            }
+        });
+
+        popupWindow.setOnDismissListener(() -> this.currentEditTextFrigo = null);
+
+    }
+
     public void openAddFrigoPopUp(View view){
         LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewPopupWindow = layoutInflater.inflate(R.layout.pop_up_add_fridge,null);
@@ -277,13 +299,58 @@ public class ListFragment extends Fragment implements FrigoObserver {
         popupWindow.setAnimationStyle(R.style.popup_window_animation);
         popupWindow.setElevation(20);
         EditText input = viewPopupWindow.findViewById(R.id.frigoAddInput);
+        input.setText("");
+        this.currentEditTextFrigo = input;
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, -150);
 
-        viewPopupWindow.findViewById(R.id.submitAddFrigo).setOnClickListener(click ->{
+        viewPopupWindow.findViewById(R.id.submitAddFrigo).setOnClickListener(click -> {
             controller.addFrigo(input.getText().toString());
             popupWindow.dismiss();
         });
+
+        viewPopupWindow.findViewById(R.id.useLocationAddFrigoButton).setOnClickListener(click -> {
+            if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED ){
+                ActivityCompat.requestPermissions(this.getActivity(), new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+            }
+            else{
+                requestLocation();
+            }
+        });
+
+        popupWindow.setOnDismissListener(() -> this.currentEditTextFrigo = null);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == LOCATION_REQUEST_CODE){
+            if (grantResults.length == 0 || (grantResults[0] != PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] != PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(this.getContext(), getString(R.string.location_permission_refused), Toast.LENGTH_LONG).show();
+            }
+            else {
+                requestLocation();
+            }
+        }
+    }
+
+    public void requestLocation(){
+        MyNavigationService.getLocation(this.getContext(), this);
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        if(currentEditTextFrigo != null){
+            Geocoder geocoder = new Geocoder(this.getContext());
+            try {
+                this.currentEditTextFrigo.setText(geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0).getLocality());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

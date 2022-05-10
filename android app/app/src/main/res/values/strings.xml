@@ -65,4 +65,5 @@
     <string name="location_permission_refused">You need to authorize the use of the localization to recover your position!</string>
     <string name="date_format">Days/Month/Years</string>
     <string name="gps_not_enabled">You need to enable the GPS to use your location</string>
+    <string name="permission_not_granted">Permissions have not been granted!</string>
 </resources>

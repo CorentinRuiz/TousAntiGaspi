@@ -43,4 +43,5 @@
     <string name="you_wont_waste">J\'espère que vous n\'allez pas gaspiller !</string>
     <string name="date_format">Jour/Mois/Années</string>
     <string name="gps_not_enabled">Vous devez activer le GPS pour utiliser votre localisation</string>
+    <string name="permission_not_granted">L\'accès à la localisation n\'a pas été accordé</string>
 </resources>

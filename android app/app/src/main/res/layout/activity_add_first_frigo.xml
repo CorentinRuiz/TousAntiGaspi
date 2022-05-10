@@ -98,6 +98,7 @@
         android:background="@drawable/rounded_edit_text"
         android:elevation="15dp"
         android:inputType="text"
+        android:maxLength="20"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:drawableStart="@drawable/ic_kitchen_black"

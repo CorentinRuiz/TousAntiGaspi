@@ -13,11 +13,12 @@ import edu.poly.tousantigaspi.R;
 
 public class MyNavigationService {
 
-    public static void getLocation(Context context, LocationListener locationListener) throws Exception{
+    public static void getLocation(Context context, LocationListener locationListener){
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            throw new Exception("Permissions have not been granted!");
+            Toast.makeText(context, R.string.permission_not_granted, Toast.LENGTH_LONG).show();
+            return;
         }
 
 
