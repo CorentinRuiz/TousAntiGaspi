@@ -53,10 +53,9 @@ public class BarCodeScannerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode_scanner);
-
+        Toast.makeText(this,getResources().getString(R.string.click_start_code),Toast.LENGTH_LONG).show();
         setupPermissions();
         codeScanner();
-
     }
 
     private void codeScanner(){
@@ -66,10 +65,9 @@ public class BarCodeScannerActivity extends AppCompatActivity {
         codeScanner.setCamera(CodeScanner.CAMERA_BACK);
         codeScanner.setFormats(CodeScanner.ALL_FORMATS);
         codeScanner.setAutoFocusMode(AutoFocusMode.SAFE);
-        codeScanner.setScanMode(ScanMode.CONTINUOUS);
+        codeScanner.setScanMode(ScanMode.SINGLE);
         codeScanner.setAutoFocusEnabled(true);
         codeScanner.setFlashEnabled(false);
-
 
 
         codeScanner.setDecodeCallback(new DecodeCallback() {
@@ -182,6 +180,7 @@ public class BarCodeScannerActivity extends AppCompatActivity {
                 CodeScannerProduct product = new CodeScannerProduct("",name,"",1);
                 getIntent().putExtra("productScanner",product);
                 setResult(Activity.RESULT_OK,getIntent());
+                popupWindow.dismiss();
                 finish();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();

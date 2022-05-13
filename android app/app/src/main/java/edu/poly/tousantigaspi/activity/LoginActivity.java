@@ -90,4 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_up,R.anim.slide_down);
     }
 
+    @Override
+    public void onBackPressed() { }
+
 }

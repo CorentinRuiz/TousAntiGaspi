@@ -37,7 +37,7 @@ public class Controller {
 
     public void addFrigo(String frigoName){
         model.addFrigo(frigoName);
-        repository.addFrigo(frigoName,UtilsSharedPreference.getStringFromPref(context,"username"),model);
+        repository.addFrigo(context,frigoName,UtilsSharedPreference.getStringFromPref(context,"username"),model);
     }
 
     public void addProduct(String frigoId, Product product, String date){

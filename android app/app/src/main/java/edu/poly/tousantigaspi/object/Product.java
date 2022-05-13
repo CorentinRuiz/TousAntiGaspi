@@ -52,7 +52,7 @@ public abstract class Product  {
         this.id = id;
     }
 
-    public boolean isPast(){
-        return Integer.parseInt(this.dateRemaining.split(" ")[0]) < 5;
+    public boolean isPast(Integer dlcLimit){
+        return Integer.parseInt(this.dateRemaining.split(" ")[0]) < dlcLimit;
     }
 }

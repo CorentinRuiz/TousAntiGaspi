@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string-array name="dlc_array">
+        <item>1 jour</item>
+        <item>2 jours</item>
+        <item>3 jours</item>
+        <item>4 jours</item>
+        <item>5 jours</item>
+    </string-array>
+
     <string name="need_register"><u>Besoin de vous inscrire ?</u></string>
     <string name="need_login"><u>Déjà un compte ? Connectez-vous !</u></string>
     <string name="create_first_fridge">Créons ton premier frigo</string>
@@ -31,6 +40,7 @@
     <string name="register">S\'inscrire</string>
     <string name="registration">Inscription</string>
     <string name="days">jours</string>
+    <string name="day">jour</string>
     <string name="camera_permission_needed">Vous avez besoin de l\'autorisation de la caméra pour utiliser cette fonctionnalité  !</string>
     <string name="location_permission_refused">Vous avez besoin d\'autoriser l\'utilisation de la localisation pour récupérer votre position !</string>
     <string name="error">Une erreur s\'est produite. Veuillez essayer plus tard…</string>
@@ -44,4 +54,9 @@
     <string name="date_format">Jour/Mois/Années</string>
     <string name="gps_not_enabled">Vous devez activer le GPS pour utiliser votre localisation</string>
     <string name="permission_not_granted">L\'accès à la localisation n\'a pas été accordé</string>
+    <string name="click_start_code">Cliquez pour commencer à scanner</string>
+    <string name="disconnect">Déconnexion</string>
+    <string name="choose_your_favorite_shop">Choissisez votre magasin préféré</string>
+    <string name="notify_me_before_expiration_date">Notifier moi avant DLC</string>
+    <string name="send_notification_only_on_start">Notification uniquement au démarrage</string>
 </resources>

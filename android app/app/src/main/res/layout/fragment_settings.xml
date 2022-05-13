@@ -8,12 +8,33 @@
     android:background="@drawable/inverse_rounded"
     tools:context=".fragment.SettingsFragment">
 
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_your_favorite_shop"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="80dp"
+        android:layout_height="2dp"
+        android:layout_gravity="top"
+        android:background="@color/main_grey_text_color"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
         android:text="@string/settings"
         android:textColor="@color/main_grey_text_color"
         android:textSize="30sp"
@@ -21,71 +42,103 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/shop_online"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_button_grey"
-        app:backgroundTint="@color/main_grey_text_color"
-        android:text="@string/shop_online"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2" />
 
-    <Button
-        android:id="@+id/buttonNotif"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/rounded_button_grey"
-        app:backgroundTint="@color/main_grey_text_color"
-        android:text="Test notification"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2" />
 
-    <Spinner
-        android:id="@+id/languageTv"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:background="@drawable/rounded_edit_text"
-        android:elevation="15dp"
-        android:entries="@array/language_array"
-        android:inputType="text"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintHorizontal_bias="0.562"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNotif"
-        app:layout_constraintVertical_bias="0.113"
-        app:layout_constraintWidth_percent="0.2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <Spinner
+            android:id="@+id/ChooseShop"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/rounded_edit_text"
+            android:elevation="5dp"
+            android:entries="@array/course_array" />
+
+
+        <Button
+            android:id="@+id/shop_online"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_button_grey"
+            android:elevation="5dp"
+            android:text="@string/shop_online"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/main_grey_text_color" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/reset"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:elevation="15dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/rounded_button_red"
-        app:backgroundTint="@color/red"
-        android:drawableEnd="@drawable/cross"
-        android:text="@string/reset"
+        android:background="@drawable/rounded_button_grey"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:text="@string/disconnect"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:backgroundTint="@color/main_grey_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/notify_me_before_expiration_date"
+        app:layout_constraintBottom_toTopOf="@+id/DLCLimit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/DLCLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/rounded_edit_text"
+        android:elevation="15dp"
+        android:entries="@array/dlc_array"
+        app:layout_constraintBottom_toTopOf="@+id/reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.16" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_notification_only_on_start"
+        app:layout_constraintBottom_toTopOf="@+id/notifySwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/notifySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.254"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DLCLimit"
+        app:layout_constraintVertical_bias="0.207" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

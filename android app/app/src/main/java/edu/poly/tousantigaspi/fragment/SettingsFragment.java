@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
@@ -28,25 +29,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import edu.poly.tousantigaspi.R;
+import edu.poly.tousantigaspi.activity.LoginActivity;
+import edu.poly.tousantigaspi.util.UtilsSharedPreference;
 
 
 public class SettingsFragment extends Fragment {
     private Button resetBtn;
     private Button shopOnlineBtn;
     private ActivityResultLauncher<Intent> shopOnlineResult;
-    Spinner language;
+    private Spinner shopSelected;
+    private Spinner dlcLimit;
+    private SwitchCompat notifySwitch;
 
-    private NotificationManagerCompat notificationManagerCompat;
-    private static final String CHANNEL_ID = "channelDefault";
-    private static int NOTIF_ID = 123;
-
-
+    private Map<String,String> allShop;
 
     public SettingsFragment() {
 
@@ -60,8 +66,13 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.createNotificationChannel();
-        this.notificationManagerCompat = NotificationManagerCompat.from(this.getContext());
+
+        allShop = new HashMap<>();
+        allShop.put("Auchan","https://www.auchan.fr");
+        allShop.put("Carrefour","https://www.carrefour.fr/");
+        allShop.put("Leclerc","https://www.leclercdrive.fr/");
+        allShop.put("Casino","https://www.casino.fr/prehome/courses-en-ligne/accueil");
+        allShop.put("Système U","https://www.magasins-u.com/accueil");
     }
 
     @Override
@@ -69,17 +80,26 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         resetBtn = view.findViewById(R.id.reset);
         shopOnlineBtn = view.findViewById(R.id.shop_online);
-        language = view.findViewById(R.id.languageTv);
+        shopSelected = view.findViewById(R.id.ChooseShop);
+        dlcLimit = view.findViewById(R.id.DLCLimit);
+        notifySwitch = view.findViewById(R.id.notifySwitch);
 
-        language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        notifySwitch.setChecked(UtilsSharedPreference.getBooleanFromPref(requireContext(),"notifyStart",true));
+
+        dlcLimit.setSelection(UtilsSharedPreference.getIntFromPref(requireContext(),"DLClimit",5)-1);
+
+        resetBtn.setOnClickListener(click -> {
+            startActivity(new Intent(requireContext(),LoginActivity.class));
+            UtilsSharedPreference.pushStringToPref(requireContext(),"username","");
+        });
+
+
+        dlcLimit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Locale locale = new Locale(language.getSelectedItem().toString());
-                Locale.setDefault(locale);
-                Resources resources = requireActivity().getResources();
-                Configuration config = resources.getConfiguration();
-                config.setLocale(locale);
-                resources.updateConfiguration(config, resources.getDisplayMetrics());
+                int days = Integer.parseInt(dlcLimit.getSelectedItem().toString().split(" ")[0]);
+
+                UtilsSharedPreference.pushIntToPref(requireContext(),"DLClimit",days);
             }
 
             @Override
@@ -88,10 +108,16 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        resetBtn.setOnClickListener(view1 -> Toast.makeText(view.getContext(), getString(R.string.unavailable), Toast.LENGTH_LONG).show());
+        notifySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UtilsSharedPreference.pushBooleanToPref(requireContext(),"notifyStart",isChecked);
+            }
+        });
+
 
         shopOnlineBtn.setOnClickListener(view1 -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.auchan.fr"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(allShop.get(shopSelected.getSelectedItem().toString())));
             shopOnlineResult.launch(browserIntent);
         });
 
@@ -104,37 +130,6 @@ public class SettingsFragment extends Fragment {
                 }
         );
 
-        Button btnNotif = view.findViewById(R.id.buttonNotif);
-        btnNotif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = requireContext();
-
-                Notification notification = new NotificationCompat.Builder(context, "channelDefault")
-                        .setSmallIcon(R.drawable.logo)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.burger))
-                        .setContentTitle("Produit bientôt périmé")
-                        .setContentText("Attention, votre hamburger se périme dans 3 jours !")
-                        .build();
-
-                notificationManagerCompat.notify(++NOTIF_ID, notification);
-            }
-        });
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel1 = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Channel 1",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            channel1.setDescription("This is channel 1");
-
-            Context context = requireContext();
-            NotificationManager manager = context.getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel1);
-        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package edu.poly.tousantigaspi.repositories;
 
+import android.content.Context;
+
 import com.google.gson.JsonArray;
 
 import java.time.format.DateTimeFormatter;
@@ -35,11 +37,11 @@ public class FrigoRepository {
         return instance;
     }
 
-    public void getFrigos(String username, FrigoModel model) {
-        setFrigos(username, model);
+    public void getFrigos(Context context,String username, FrigoModel model) {
+        setFrigos(context,username, model);
     }
 
-    private void setFrigos(String username, FrigoModel model) {
+    private void setFrigos(Context context,String username, FrigoModel model) {
         GetRequestWithUsername getRequestWithUsername = new GetRequestWithUsername();
         getRequestWithUsername.setUsername(username);
 
@@ -57,7 +59,7 @@ public class FrigoRepository {
                             , x.getAsJsonObject().get("name").toString().replace("\"", "")
                             , new ArrayList<Product>())));
 
-                    getProducts(frigos, model);
+                    getProducts(context,frigos, model);
                 } else {
                     System.out.println(response.message());
                 }
@@ -95,7 +97,7 @@ public class FrigoRepository {
         });
     }
 
-    private void getProducts(ArrayList<Frigo> frigos, FrigoModel model) {
+    private void getProducts(Context context,ArrayList<Frigo> frigos, FrigoModel model) {
         for (Frigo frigo : frigos) {
             GetProductsRequest getProductsRequest = new GetProductsRequest();
             getProductsRequest.setId(frigo.getId());
@@ -114,7 +116,7 @@ public class FrigoRepository {
                             Product newProduct = factory.build(ProductFactory.MANUALLY);
                             newProduct.setId(x.getAsJsonObject().get("_id").toString().replace("\"", ""));
                             newProduct.setQuantity(Integer.parseInt(x.getAsJsonObject().get("quantity").toString().replace("\"", "")));
-                            newProduct.setDateRemaining(new DateCalculator().calculateDaysRemaining(x.getAsJsonObject().get("date").toString().replace("\"", "").split("T")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                            newProduct.setDateRemaining(new DateCalculator().calculateDaysRemaining(context,x.getAsJsonObject().get("date").toString().replace("\"", "").split("T")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                             newProduct.setName(x.getAsJsonObject().get("name").toString().replace("\"", ""));
                             products.add(newProduct);
                         });
@@ -138,7 +140,7 @@ public class FrigoRepository {
     }
 
     public void addProduct(Product product, String id, FrigoModel model,String date) {
-
+        System.out.println(date);
         AddProductRequest getProductsRequest = new AddProductRequest();
         getProductsRequest.setId(id);
         getProductsRequest.setName(product.getName());
@@ -188,7 +190,7 @@ public class FrigoRepository {
         });
     }
 
-    public void addFrigo(String frigoName, String username,FrigoModel model) {
+    public void addFrigo(Context context, String frigoName, String username,FrigoModel model) {
         CreateFrigoRequest createFrigoRequest = new CreateFrigoRequest();
         createFrigoRequest.setName(frigoName);
         createFrigoRequest.setUsername(username);
@@ -201,7 +203,7 @@ public class FrigoRepository {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     System.out.println("Frigo is created");
-                    model.loadFrigo(username);
+                    model.loadFrigo(context,username);
                 } else {
                     System.out.println(response.message());
                 }

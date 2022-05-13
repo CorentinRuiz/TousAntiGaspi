@@ -114,7 +114,7 @@ public class ListFragment extends Fragment implements FrigoObserver, LocationLis
         currentPositionViewModel = new ViewModelProvider(requireActivity()).get(CurrentPositionViewModel.class);
 
         model.addObs(this);
-        model.loadFrigo(UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
+        model.loadFrigo(requireContext(),UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
 
         frigoSpinner = view.findViewById(R.id.frigoSpinner);
         productListView = view.findViewById(R.id.list_item);
@@ -189,7 +189,7 @@ public class ListFragment extends Fragment implements FrigoObserver, LocationLis
             String dateString = date.getText().toString();
             dateString = dateString.replace("/","-");
             String dateFormatForApi = dateString;
-            dateString = new DateCalculator().calculateDaysRemaining(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            dateString = new DateCalculator().calculateDaysRemaining(requireContext(),dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
             AbstractFactory<Product> factory = FactoryProvider.getFactory(FactoryProvider.PRODUCT);
             Product newProduct = factory.build(ProductFactory.MANUALLY);

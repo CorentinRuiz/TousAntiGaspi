@@ -103,4 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public Controller getController() {
         return controller;
     }
+
+    @Override
+    public void onBackPressed() { }
 }

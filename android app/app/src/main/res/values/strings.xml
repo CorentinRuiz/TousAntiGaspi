@@ -16,9 +16,20 @@
         <item>12</item>
     </string-array>
 
-    <string-array name="language_array">
-        <item>en</item>
-        <item>fr</item>
+    <string-array name="dlc_array">
+        <item>1 day</item>
+        <item>2 days</item>
+        <item>3 days</item>
+        <item>4 days</item>
+        <item>5 days</item>
+    </string-array>
+
+    <string-array name="course_array">
+        <item>Auchan</item>
+        <item>Carrefour</item>
+        <item>Leclerc</item>
+        <item>Casino</item>
+        <item>Système U</item>
     </string-array>
 
     <string name="need_register"><u>Need to be register?</u></string>
@@ -53,6 +64,7 @@
     <string name="register">Register</string>
     <string name="registration">Registration</string>
     <string name="days">days</string>
+    <string name="day">day</string>
     <string name="camera_permission_needed">You need the camera permission to use this feature!</string>
     <string name="error">An error occurred. Please try it later…</string>
     <string name="reset">Reset</string>
@@ -66,4 +78,9 @@
     <string name="date_format">Days/Month/Years</string>
     <string name="gps_not_enabled">You need to enable the GPS to use your location</string>
     <string name="permission_not_granted">Permissions have not been granted!</string>
+    <string name="click_start_code">Click to start scan</string>
+    <string name="disconnect">Log out</string>
+    <string name="choose_your_favorite_shop">Choose your favorite shop</string>
+    <string name="notify_me_before_expiration_date">Notify me before expiration date</string>
+    <string name="send_notification_only_on_start">Send notification only on start</string>
 </resources>

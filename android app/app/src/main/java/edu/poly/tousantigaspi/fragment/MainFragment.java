@@ -54,6 +54,7 @@ public class MainFragment extends Fragment implements FrigoObserver {
     private ListView productListView;
     private FrigoAdapter adapter;
     CurrentPositionViewModel currentPositionViewModel;
+    private int countNotif;
 
     public Spinner frigoSpinner;
     public TextView welcome;
@@ -100,7 +101,7 @@ public class MainFragment extends Fragment implements FrigoObserver {
         super.onViewCreated(view, savedInstanceState);
 
         model.addObs(this);
-        model.loadFrigo(UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
+        model.loadFrigo(requireContext(),UtilsSharedPreference.getStringFromPref(requireContext(),"username"));
 
         currentPositionViewModel = new ViewModelProvider(requireActivity()).get(CurrentPositionViewModel.class);
         frigoSpinner = view.findViewById(R.id.frigoSpinner);
@@ -138,22 +139,36 @@ public class MainFragment extends Fragment implements FrigoObserver {
             productListAdapter = new ProductListAdapter(requireContext(),frigoModel.getCurrentPastDlcProduct().get(frigoModel.getFrigos().get(currentPositionViewModel.getCurrentPosition().getValue()).getName()));
             productListView.setAdapter(productListAdapter);
 
-            List<Product> pastProducts = frigoModel.getFrigos().get(currentPositionViewModel.getCurrentPosition().getValue()).getProducts().stream().filter(product -> product.isPast()).collect(Collectors.toList());
+
+            List<Product> pastProducts = frigoModel.getFrigos().get(currentPositionViewModel.getCurrentPosition()
+                    .getValue())
+                    .getProducts()
+                    .stream()
+                    .filter(product -> product.isPast(UtilsSharedPreference.getIntFromPref(requireContext(),"DLCLimit",5)))
+                    .collect(Collectors.toList());
+
 
             currentPositionViewModel.getCurrentPosition().observe(getViewLifecycleOwner(), position ->{
                 productListAdapter.refresh(frigoModel,position,true);
                 frigoSpinner.setSelection(position);
                 controller.modelHasChanged(model.getFrigos().get(position));
 
-                List<Product> pastProductsRefresh = frigoModel.getFrigos().get(position).getProducts().stream().filter(product -> product.isPast()).collect(Collectors.toList());
+                List<Product> pastProductsRefresh = frigoModel
+                        .getFrigos()
+                        .get(position)
+                        .getProducts()
+                        .stream()
+                        .filter(product -> product.isPast(UtilsSharedPreference.getIntFromPref(requireContext(),"DLCLimit",5)))
+                        .collect(Collectors.toList());
 
-                if(!pastProductsRefresh.isEmpty()){
+                if(!pastProductsRefresh.isEmpty() && !UtilsSharedPreference.getBooleanFromPref(requireContext(),"notifyStart",true)){
                     sendNotifications(pastProductsRefresh);
                 }
             });
 
-            if(!pastProducts.isEmpty()){
+            if(!pastProducts.isEmpty() && countNotif == 0){
                 sendNotifications(pastProducts);
+                countNotif++;
             }
 
             modelCreated = true;

@@ -139,4 +139,7 @@ public class AddFirstFrigoActivity extends AppCompatActivity implements Location
         overridePendingTransition(R.anim.slide_in_bottom,R.anim.slide_out_bottom);
 
     }
+
+    @Override
+    public void onBackPressed() { }
 }

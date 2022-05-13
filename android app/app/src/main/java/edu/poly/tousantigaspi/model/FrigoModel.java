@@ -1,5 +1,7 @@
 package edu.poly.tousantigaspi.model;
 
+import android.content.Context;
+
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.JsonArray;
@@ -60,13 +62,17 @@ public class FrigoModel extends FrigoObservable {
         this.frigos.stream().filter(x -> x.getId().equals(id)).findFirst().get().setName(newName);
     }
 
-    public void loadFrigo(String username){
-       repository.getFrigos(username,this);
+    public void loadFrigo(Context context, String username){
+       repository.getFrigos(context,username,this);
     }
 
     public void loadPastDLCProduct(){
         for(Frigo frigo : this.frigos){
-            List<Product> products = frigo.getProducts().stream().filter(Product::isPast).collect(Collectors.toList());
+            List<Product> products = frigo
+                    .getProducts()
+                    .stream()
+                    .filter(product -> product.isPast(5))
+                    .collect(Collectors.toList());
             currentPastDlcProduct.put(frigo.getName(),products);
         }
         controller.modelHasChanged(frigos.get(0));
@@ -85,16 +91,27 @@ public class FrigoModel extends FrigoObservable {
     }
 
     public void addProduct(String id,Product product){
-        if(product.isPast()){
+        if(product.isPast(5)){
             this.currentPastDlcProduct.get(this.frigos.stream().filter(x -> x.getId().equals(id)).findFirst().get().getName()).add(product);
         }
-        this.frigos.stream().filter(x -> x.getId().equals(id)).findFirst().get().getProducts().add(product);
+        this.frigos.stream()
+                .filter(x -> x
+                .getId()
+                .equals(id))
+                .findFirst()
+                .get()
+                .getProducts()
+                .add(product);
         notifyObs(this);
     }
 
     public void deleteFrigo(String id){
         currentPastDlcProduct.remove(this.frigos.stream().filter(x -> x.getId().equals(id)).findFirst().get().getName());
-        this.frigos.remove(this.frigos.stream().filter(x -> x.getId().equals(id)).findFirst().get());
+        this.frigos.remove(this.frigos
+                .stream()
+                .filter(x -> x.getId().equals(id))
+                .findFirst()
+                .get());
     }
 
     public void setController(Controller controller) {
