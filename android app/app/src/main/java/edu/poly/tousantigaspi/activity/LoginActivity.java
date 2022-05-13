@@ -63,10 +63,14 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     UtilsSharedPreference.pushStringToPref(getApplicationContext(),"username",loginRequest.getUsername());
                     openMainActivity();
-                }else{
-                    String message = getString(R.string.error);
-
-                    Toast.makeText(LoginActivity.this,message,Toast.LENGTH_LONG).show();
+                }else if(response.code() == 404) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.user_not_found), Toast.LENGTH_LONG).show();
+                }
+                else if(response.code() == 401){
+                    Toast.makeText(LoginActivity.this,getString(R.string.wrong_password),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(LoginActivity.this,getString(R.string.error),Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -85,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void openMainActivity(){
-        System.out.println("Changement Activité");
         startActivity(new Intent(LoginActivity.this,MainActivity.class));
         overridePendingTransition(R.anim.slide_up,R.anim.slide_down);
     }

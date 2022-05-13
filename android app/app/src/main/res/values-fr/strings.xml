@@ -56,7 +56,12 @@
     <string name="permission_not_granted">L\'accès à la localisation n\'a pas été accordé</string>
     <string name="click_start_code">Cliquez pour commencer à scanner</string>
     <string name="disconnect">Déconnexion</string>
+    <string name="wrong_password">Mauvais mot de passe</string>
+    <string name="user_not_found">Utilisateur non trouvé</string>
+    <string name="username_exist">Le nom d\'utilisateur ou l\'email est déjà utilisé</string>
     <string name="choose_your_favorite_shop">Choissisez votre magasin préféré</string>
     <string name="notify_me_before_expiration_date">Notifier moi avant DLC</string>
     <string name="send_notification_only_on_start">Notification uniquement au démarrage</string>
+    <string name="no_product_expired">Aucun produit n\'expire bientôt</string>
+    <string name="product_expired_soon">Produit périmés ou expirants bientôt</string>
 </resources>

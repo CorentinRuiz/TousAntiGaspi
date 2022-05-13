@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
 import edu.poly.tousantigaspi.R;
 import edu.poly.tousantigaspi.util.ApiClient;
 import edu.poly.tousantigaspi.util.UtilsSharedPreference;
@@ -41,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         registerButton.setOnClickListener(click -> {
+            String regex = "^(.+)@(.+)$";
+            Pattern pattern = Pattern.compile(regex);
+
             if(TextUtils.isEmpty(eEmail.getText().toString()) || TextUtils.isEmpty(eUsername.getText().toString()) || TextUtils.isEmpty(ePassword.getText().toString())){
 
                 String message = getString(R.string.all_input_required);
@@ -49,7 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
             else if(!TextUtils.equals(ePassword.getText(),eCpassword.getText())){
                 String message = getString(R.string.passwords_not_same);
                 Toast.makeText(RegisterActivity.this,message,Toast.LENGTH_LONG).show();
-            }else{
+            }
+            else{
                 RegisterRequest request = new RegisterRequest();
 
                 request.setEmail(eEmail.getText().toString());
@@ -77,9 +83,11 @@ public class RegisterActivity extends AppCompatActivity {
                     System.out.println(response.body());
                     UtilsSharedPreference.pushStringToPref(getApplicationContext(),"username",registerRequest.getUsername());
                     openFirstConnectionPage();
+                }else if(response.code() == 400){
+                    String message = getString(R.string.username_exist);
+                    Toast.makeText(RegisterActivity.this,message,Toast.LENGTH_LONG).show();
                 }else{
                     String message = getString(R.string.error);
-
                     Toast.makeText(RegisterActivity.this,message,Toast.LENGTH_LONG).show();
                 }
 

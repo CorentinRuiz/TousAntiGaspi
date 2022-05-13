@@ -61,13 +61,13 @@ public class Controller {
 
         if(tv != null){
             if(model.getCurrentPastDlcProduct().get(frigo.getName()).isEmpty()){
-                tv.setText("No product expired soon");
+                tv.setText(R.string.no_product_expired);
                 tv.setTextColor(context.getResources().getColor(R.color.main_grey_text_color));
                 bar.setBackground(ContextCompat.getDrawable(context, R.color.main_grey_text_color));
             }
             else{
 
-                tv.setText("Product expired or expire soon  ⚠");
+                tv.setText(R.string.product_expired_soon);
                 tv.setTextColor(context.getResources().getColor(R.color.red));
                 bar.setBackground(ContextCompat.getDrawable(context, R.color.red));
             }
